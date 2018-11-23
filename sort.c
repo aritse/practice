@@ -41,6 +41,22 @@ void selection_sort(int A[], int n)
     }
 }
 
+void insertion_sort(int A[], int n)
+{
+    /* Insertion sort is based on the idea that one element from  the
+    input elements is consumed in each iteration to find its correct
+    position i.e, the position to which it belongs in a sorted array. */
+    for (int i = 0; i < n; i++)
+    {
+        int j = i;
+        while (j > 0 && A[j] < A[j - 1])
+        {
+            swap_by_ref(&A[j], &A[j - 1]);
+            j--;
+        }
+    }
+}
+
 int main()
 {
     int n = 20, A[n];
@@ -50,7 +66,8 @@ int main()
         printf("%d ", A[i]);
     }
     // bubble_sort(A, n);
-    selection_sort(A, n);
+    // selection_sort(A, n);
+    insertion_sort(A, n);
     printf("\n");
     for (int i = 0; i < n; i++)
         printf("%d ", A[i]);
