@@ -47,14 +47,12 @@ void insertion_sort(int A[], int n)
     input elements is consumed in each iteration to find its correct
     position i.e, the position to which it belongs in a sorted array. */
     for (int i = 0; i < n; i++)
-    {
-        int j = i;
-        while (j > 0 && A[j] < A[j - 1])
+        for (int j = i; j > 0; j--)
         {
+            if (A[j] >= A[j - 1])
+                break;
             swap_by_ref(&A[j], &A[j - 1]);
-            j--;
         }
-    }
 }
 
 int main()
@@ -65,10 +63,12 @@ int main()
         A[i] = rand() % 10;
         printf("%d ", A[i]);
     }
+    // printf("\nBubble Sort:\n");
     // bubble_sort(A, n);
+    // printf("\nSelection Sort:\n");
     // selection_sort(A, n);
+    printf("\nInsertion Sort:\n");
     insertion_sort(A, n);
-    printf("\n");
     for (int i = 0; i < n; i++)
         printf("%d ", A[i]);
     printf("\n");
