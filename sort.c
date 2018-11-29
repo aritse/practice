@@ -91,9 +91,37 @@ void merge_sort(int A[], int start, int end)
     }
 }
 
+int partition(int A[], int start, int end)
+{
+    int pivot = A[start], i = start + 1;
+
+    for (int j = i; j <= end; j++)
+        if (A[j] < pivot)
+            swap_by_ref(&A[i++], &A[j]);
+    swap_by_ref(&A[start], &A[i - 1]);
+    return i - 1;
+}
+
+int random_partition(int A[], int start, int end)
+{
+    int random = start + rand() % (end - start + 1);
+    swap_by_ref(&A[start], &A[random]);
+    return partition(A, start, end);
+}
+
+void quick_sort(int A[], int start, int end)
+{
+    if (start < end)
+    {
+        int pivot = random_partition(A, start, end);
+        quick_sort(A, start, pivot - 1);
+        quick_sort(A, pivot + 1, end);
+    }
+}
+
 int main()
 {
-    int n = 20, A[n];
+    int n = 10, A[n];
 
     printf("Unsorted:\n");
     for (int i = 0; i < n; i++)
@@ -112,8 +140,11 @@ int main()
     // printf("\nInsertion Sort:\n");
     // insertion_sort(A, n);
 
-    printf("\nMerge Sort:\n");
-    merge_sort(A, 0, n - 1);
+    // printf("\nMerge Sort:\n");
+    // merge_sort(A, 0, n - 1);
+
+    printf("\nQuick Sort:\n");
+    quick_sort(A, 0, n - 1);
 
     for (int i = 0; i < n; i++)
         printf("%d ", A[i]);
