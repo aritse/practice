@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+#define OUTPUT
 
 void swap_by_value(int A[], int i, int j)
 {
@@ -111,6 +113,12 @@ int random_partition(int A[], int start, int end)
 
 void quick_sort(int A[], int start, int end)
 {
+    /* Quick sort is based on the divide-and-conquer approach based on
+    the idea of choosing one element as a pivot element and partitioning
+    the array around it such that: Left side of pivot contains all
+    the elements that are less than the pivot element
+    Right side contains all elements greater than the pivot. */
+
     if (start < end)
     {
         int pivot = random_partition(A, start, end);
@@ -119,34 +127,62 @@ void quick_sort(int A[], int start, int end)
     }
 }
 
+void counting_sort(int A[], int n)
+{
+    /* In Counting sort, the frequencies of distinct elements of the array
+    to be sorted is counted and stored in an auxiliary array, by mapping
+    its value as an index of the auxiliary array. */
+
+    // find max
+    int k = 0;
+    for (int i = 0; i < n; i++)
+        if (A[i] > k)
+            k = A[i];
+
+    // initialize auxiliary array
+    int B[k + 1];
+    for (int i = 0; i <= k; i++)
+        B[i] = 0;
+
+    // count frequencies
+    for (int i = 0; i < n; i++)
+        B[A[i]]++;
+
+    // traverse B
+    int j = 0;
+    for (int i = 0; i <= k; i++)
+    {
+        int freq = B[i];
+        while (freq--)
+            A[j++] = i;
+    }
+}
+
 int main()
 {
-    int n = 10, A[n];
+    int n = 20, A[n];
+    clock_t start = clock();
 
-    printf("Unsorted:\n");
+    // printf("Unsorted:\n");
     for (int i = 0; i < n; i++)
     {
-        A[i] = rand() % 10;
-        printf("%d ", A[i]);
+        A[i] = rand() % n;
+        // printf("%d ", A[i]);
     }
     printf("\n");
 
-    // printf("\nBubble Sort:\n");
     // bubble_sort(A, n);
-
-    // printf("\nSelection Sort:\n");
     // selection_sort(A, n);
-
-    // printf("\nInsertion Sort:\n");
     // insertion_sort(A, n);
-
-    // printf("\nMerge Sort:\n");
     // merge_sort(A, 0, n - 1);
+    // quick_sort(A, 0, n - 1);
+    counting_sort(A, n);
 
-    printf("\nQuick Sort:\n");
-    quick_sort(A, 0, n - 1);
-
+#ifdef OUTPUT
     for (int i = 0; i < n; i++)
         printf("%d ", A[i]);
     printf("\n");
+#endif
+    clock_t stop = clock();
+    printf("\nRunning time: %lu\n", stop - start);
 }
