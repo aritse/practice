@@ -158,16 +158,48 @@ void counting_sort(int A[], int n)
     }
 }
 
+void max_heapify(int A[], int n, int i)
+{
+    int largest = i, l = (i << 1) + 1, r = (i + 1) << 1;
+
+    if (l < n && A[l] > A[largest])
+        largest = l;
+    if (r < n && A[r] > A[largest])
+        largest = r;
+    if (largest != i)
+    {
+        swap_by_ref(&A[largest], &A[i]);
+        max_heapify(A, n, largest);
+    }
+}
+
+void heap_sort(int A[], int n)
+{
+    /* Heaps can be used in sorting an array. In max-heaps, maximum element
+    will always be at the root. Heap Sort uses this property of heap to
+    sort the array. The heap root in array representation is the index 0. */
+    for (int i = n / 2 - 1; i >= 0; i--)
+        /* In a complete binary tree, (n/2 - 1) is the index of the last
+        non-leaf node. Here, we build a max heap in a bottom-up fashion. */
+        max_heapify(A, n, i);
+
+    for (int i = n - 1; i >= 0; i--)
+    {
+        // A[0] is the max. Swap and re-heapify with an array reduced by one.
+        swap_by_ref(&A[0], &A[i]);
+        max_heapify(A, i, 0); // bring the max element at the root
+    }
+}
+
 int main()
 {
     int n = 20, A[n];
     clock_t start = clock();
 
-    // printf("Unsorted:\n");
     for (int i = 0; i < n; i++)
     {
         A[i] = rand() % n;
-        // printf("%d ", A[i]);
+        printf("%d ", A[i]);
     }
     printf("\n");
 
@@ -176,7 +208,9 @@ int main()
     // insertion_sort(A, n);
     // merge_sort(A, 0, n - 1);
     // quick_sort(A, 0, n - 1);
-    counting_sort(A, n);
+    // counting_sort(A, n);
+    printf("heap sort:\n");
+    heap_sort(A, n);
 
 #ifdef OUTPUT
     for (int i = 0; i < n; i++)
