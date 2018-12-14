@@ -30,48 +30,53 @@ H[i] < H[i+1]
 
 #include <stdio.h>
 #include <math.h>
-#include <stdlib.h>
 
-#include <stdio.h>
-#include <math.h>
-#include <stdlib.h>
+#define MIN(a, b) (((a) < (b)) ? (a) : (b))
+#define MAX(a, b) (((a) > (b)) ? (a) : (b))
+#define _lu unsigned long int
+#define _lli long long int
+#define UNLIMITED pow(10, 18)
 
-#define MAX(x, y) x > y ? x : y
-#define MIN(x, y) x < y ? x : y
-
-int minimize_l(int start, int end, int L[][end])
+_lli minimize_l(_lu start, _lu end, _lli L[][end])
 {
-    if (start > end)
-        return -1;
-    int l = L[start][end];
-    if (l > 0)
-        for (int i = start + 1; i < end; i++)
-            l = MIN(l, MAX(L[start][i], minimize_l(i, end, L)));
-    return l;
+    if (start < end)
+    {
+        for (_lu i = start + 1; i < end; i++)
+            L[start][end] = MIN(L[start][end], MAX(minimize_l(start, i, L), minimize_l(i, end, L)));
+        return L[start][end];
+    }
+    return -1;
 }
 
 int main()
 {
-    // Read input
-    int num_trees;
-    scanf("%d", &num_trees);
-    int X[num_trees], H[num_trees];
-    for (int i = 0; i < num_trees; i++)
-        scanf("%d %d", &X[i], &H[i]);
+    // Read input (num of trees and their coordinates & heights)
+    _lu num_trees;
+    scanf("%lu", &num_trees);
+    _lu X[num_trees], H[num_trees];
+    for (_lu i = 0; i < num_trees; i++)
+        scanf("%lu %lu", &X[i], &H[i]);
 
-    // Calculate rope length for a direct move between a and b
-    int L[num_trees][num_trees];
-    for (int a = 0; a < num_trees; a++)
-        for (int b = 0; b < num_trees; b++)
-            if (a == b)
-                L[a][b] = 0;
-            else
+    // Calculate rope length for climb between pair of trees
+    _lli L[num_trees][num_trees];
+    for (_lu start = 0; start < num_trees; start++)
+        for (_lu finish = 0; finish < num_trees; finish++)
+            if (start < finish)
             {
-                int dx = abs(X[b] - X[a]);
-                int dh = abs(H[b] - H[a]);
-                L[a][b] = dx > dh ? pow(dx, 2) + pow(dh, 2) : -1;
+                _lu dx = X[finish] - X[start];
+                _lu dh = H[finish] - H[start];
+                L[start][finish] = dx > dh ? pow(dx, 2) + pow(dh, 2) : UNLIMITED;
             }
+            else if (start > finish)
+                L[start][finish] = UNLIMITED;
+            else
+                L[start][finish] = 0;
+    // for (_lu start = 0; start < num_trees; start++) {
+    //     for (_lu finish = 0; finish < num_trees; finish++)
+    //         printf("%d ", L[start][finish]);
+    //     printf("\n");
+    // }
     // Minimize rope length for a move between first and last trees
-    printf("%d\n", minimize_l(0, num_trees, L));
+    printf("%lli\n", minimize_l(0, num_trees - 1, L));
     return 0;
 }
