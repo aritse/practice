@@ -8,8 +8,11 @@ class Solution(object):
     # which is equal to the minimum of maximum height of bars on both the sides
     # minus its own height.
     def trap2(self, height):
-        water = 0
         length = len(height)
+        if length == 0:
+            return 0
+
+        water = 0
         for i in range(1, length-1):
             max_left, max_right = 0, 0
             for j in range(0, i+1):
@@ -17,6 +20,7 @@ class Solution(object):
             for j in range(i, length):
                 max_right = max(max_right, height[j])
             water += min(max_left, max_right) - height[i]
+
         return water
 
     # DP: In brute force, we iterate over the left and right parts again and
@@ -41,4 +45,5 @@ class Solution(object):
 
         for i in range(1, length-1):
             water += min(left_max[i], right_max[i]) - height[i]
+
         return water
