@@ -7,7 +7,7 @@ class Solution(object):
     # array, we find the maximum level of water it can trap after the rain,
     # which is equal to the minimum of maximum height of bars on both the sides
     # minus its own height.
-    def trap(self, height):
+    def trap2(self, height):
         water = 0
         length = len(height)
         for i in range(1, length-1):
@@ -22,7 +22,7 @@ class Solution(object):
     # DP: In brute force, we iterate over the left and right parts again and
     # again just to find the highest bar size up to that index. But, they could
     # be stored.
-    def trap2(self, height):
+    def trap(self, height):
         length = len(height)
         if length == 0:
             return 0
