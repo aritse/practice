@@ -1,5 +1,5 @@
 {
-    "editor.formatOnSave": true,
-    "python.pythonPath": "C:\\Users\\v-artser\\AppData\\Local\\Programs\\Python\\Python37-32\\python.exe",
-    "editor.wordWrap": "on"
+  "editor.formatOnSave": true,
+  "python.pythonPath": "C:\\Users\\v-artser\\AppData\\Local\\Programs\\Python\\Python37-32\\python.exe",
+  "editor.wordWrap": "on"
 }

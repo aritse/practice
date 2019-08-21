@@ -9,6 +9,6 @@ class Solution(object):
     def maxProfit(self, prices):
         max_profit = 0
         for i in range(1, len(prices)):
-            max_profit += (prices[i] - prices[i-1]
-                           ) if prices[i] > prices[i-1] else 0
+            diff = prices[i] - prices[i-1]
+            max_profit += diff if diff > 0 else 0
         return max_profit
