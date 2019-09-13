@@ -24,7 +24,8 @@ class LinkedList {
         } else this.head = link;
     }
 
-    removeDups() {
+    /** Using a hash table */
+    removeDups2() {
         let hash = {};
         let n = this.head;
         while (n) {
@@ -36,6 +37,21 @@ class LinkedList {
                 this.deleteNode(Number(k));
                 this.appendToTail(Number(k));
             }
+        }
+    }
+
+    /** Using two pointers */
+    removeDups() {
+        let current = this.head;
+        while (current) {
+            let runner = current;
+            while (runner.next) {
+                if (current.data === runner.next.data)
+                    runner.next = runner.next.next;
+                else
+                    runner = runner.next;
+            }
+            current = current.next;
         }
     }
 
@@ -61,17 +77,20 @@ class LinkedList {
     }
 }
 
-
+/** Driver program */
+// Build a linked list
 const linkedList = new LinkedList();
 for (let i = 0; i < 4; i++) { linkedList.appendToTail(5); }
 for (let i = 0; i < 10; i++) { linkedList.appendToTail(i); }
 for (let i = 0; i < 10; i += 3) { linkedList.appendToTail(i); }
+
+console.log("Linked list built");
 console.log(linkedList.toString());
-console.log("Deleting ", 3);
+console.log("Deleting all occurrences of ", 3);
 linkedList.deleteNode(3);
 console.log(linkedList.toString());
 console.log("Deleted ", 3);
-console.log("Removing duplicates");
+console.log("Removing duplicates...");
 linkedList.removeDups();
 console.log(linkedList.toString());
 console.log("Removed duplicates");
