@@ -60,3 +60,11 @@ var rob = function (houses) {
     }
     return max_profit[houses.length];
 };
+
+/* Solution I found online that was pretty cool */
+
+// variable p records previous 2 max values: p[1] is the previous one and p[0] is the one before previous one. p is initialized as [0,0]. variable n is the value at each position.
+
+var rob = function (nums) {
+    return nums.reduce((p, n) => [p[1], Math.max(p[0] + n, p[1])], [0, 0])[1];
+};
