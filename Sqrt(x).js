@@ -24,15 +24,10 @@ var mySqrt = function (x) {
     if (x === 0) return 0;
     if (x === 1) return 1;
 
-    // find lower and upper bounds to narrow the search space of the sqrt
-    let lower_bound = 1;
-    let upper_bound = lower_bound * 10;
-    while (!((x > (lower_bound ** 2)) && (x < (upper_bound ** 2)))) {
-        lower_bound *= 10;
-        upper_bound *= 10;
-    }
-
     // converge the sqrt by taking the middle on each iteration
+    let lower_bound = 1;
+    let upper_bound = x * 10;
+
     let sqrt = Math.floor((lower_bound + upper_bound) / 2);
     while (!(x >= (sqrt ** 2) && x < ((sqrt + 1) ** 2))) {
         if (x < sqrt ** 2) upper_bound = sqrt;
