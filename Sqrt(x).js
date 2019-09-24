@@ -49,3 +49,16 @@ Questions and assumptions:
 6. Is the input number signed? No
 7. Is the input number is a guaranteed square of a number? No
 */
+
+
+/*
+Solution that I found online which is purely mathematical.
+Reference: https://www.youtube.com/watch?v=1uN8cBGVpfs
+*/
+
+// var mySqrt = function (x) {
+//     let sqrt = x;
+//     while (sqrt ** 2 > x)
+//         sqrt = Math.floor((sqrt + x / sqrt) / 2);
+//     return sqrt;
+// };
