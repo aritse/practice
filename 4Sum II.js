@@ -26,23 +26,14 @@
  * @return {number}
  */
 var fourSumCount = function (A, B, C, D) {
-    const len = A.length;
-    const AB = Array.from(Array(len), () => new Array(len));
-    const CD = Array.from(Array(len), () => new Array(len));
-    let tuples = 0;
-    for (let i = 0; i < len; i++)
-        for (let j = 0; j < len; j++)
-            AB[i][j] = A[i] + B[j];
-    for (let i = 0; i < len; i++)
-        for (let j = 0; j < len; j++)
-            CD[i][j] = C[i] + D[j];
-    for (let i = 0; i < len; i++)
-        for (let j = 0; j < len; j++)
-            for (let k = 0; k < len; k++)
-                for (let l = 0; l < len; l++)
-                    if (AB[i][j] + CD[k][l] === 0)
-                        tuples++;
-    return tuples;
+    const AB = {};
+    const CD = {};
+    for (const a of A) for (const b of B) AB[a + b] = AB[a + b] + 1 || 1;
+    for (const c of C) for (const d of D) CD[c + d] = CD[c + d] + 1 || 1;
+
+    let numOfTuples = 0;
+    for (let [k, v] of Object.entries(AB)) numOfTuples += CD[-k] * v || 0;
+    return numOfTuples;
 };
 
 console.log(fourSumCount([-1, -1], [-1, 1], [-1, 1], [1, -1]));
@@ -64,5 +55,10 @@ Is there any constraint on the time and space complexities? For now, there is no
 
 /* Approach 1 - Brute force
 Iterate over each element of every list to find a tuple. With 2 lists, the time complexity is n squared.
+In other words, build 2 matrices AB & CD. Pick a number from AB and count number of its opposites in CD.
 With 4 lists, the running time is n^4. Can we do better?
+
+Yes, we don't need to look up the same value. Let's say that there are 7 zeros in AB. We don't need to
+lookup 7 times. We can simply multiply. We can solve it by counting the number of zeros in AB by
+using a hash.
 */
