@@ -36,17 +36,12 @@ var fourSumCount = function (A, B, C, D) {
     for (let i = 0; i < len; i++)
         for (let j = 0; j < len; j++)
             CD[i][j] = C[i] + D[j];
-    for (let i = 0; i < len; i++) {
-        for (let j = 0; j < len; j++) {
-            for (let k = 0; k < len; k++) {
-                for (let l = 0; l < len; l++) {
-                    if (AB[i][j] + CD[k][l] === 0) {
+    for (let i = 0; i < len; i++)
+        for (let j = 0; j < len; j++)
+            for (let k = 0; k < len; k++)
+                for (let l = 0; l < len; l++)
+                    if (AB[i][j] + CD[k][l] === 0)
                         tuples++;
-                    }
-                }
-            }
-        }
-    }
     return tuples;
 };
 
