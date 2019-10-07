@@ -26,13 +26,13 @@
  * @return {number}
  */
 var fourSumCount = function (A, B, C, D) {
-    const AB = {};
-    const CD = {};
+    const AB = {};    // count A+B
+    const CD = {};    // count C+D
     for (const a of A) for (const b of B) AB[a + b] = AB[a + b] + 1 || 1;
     for (const c of C) for (const d of D) CD[c + d] = CD[c + d] + 1 || 1;
 
     let numOfTuples = 0;
-    for (let [k, v] of Object.entries(AB)) numOfTuples += CD[-k] * v || 0;
+    for (let key of Object.keys(AB)) numOfTuples += CD[-key] * AB[key] || 0;
     return numOfTuples;
 };
 
