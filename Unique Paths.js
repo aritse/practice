@@ -30,9 +30,13 @@ Output: 28
  * @param {number} n
  * @return {number}
  */
+
 var uniquePaths = function (m, n) {
-    if (m === 1 || n === 1) return 1;
-    return uniquePaths(m - 1, n) + uniquePaths(m, n - 1);
+    const grid = [...Array(m)].map(x => Array(n).fill(1));
+    for (let i = 1; i < m; i++)
+        for (let j = 1; j < n; j++)
+            grid[i][j] = grid[i][j - 1] + grid[i - 1][j];
+    return grid[m - 1][n - 1];
 };
 
 /*
