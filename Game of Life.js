@@ -37,23 +37,26 @@ In this question, we represent the board using a 2D array. In principle, the boa
  * @return {void} Do not return anything, modify board in-place instead.
  */
 var gameOfLife = function (board) {
-    let [rows, cols] = [board.length, board[0].length];
+    const [rows, cols] = [board.length, board[0].length];
+    var getNeighbors = function (r, c) {
+        let neighbors = 0;
+        for (let i = r - 1; i <= r + 1; i++)
+            for (let j = c - 1; j <= c + 1; j++)
+                if (i >= 0 && i < rows && j >= 0 && j < cols)
+                    neighbors += board[i][j] & 1;
+        neighbors -= board[r][c] & 1;
+        return neighbors;
+    }
 
-    // allocate a padded copy of the board
-    const P = [...Array(rows + 2)].map(row => Array(cols + 2).fill(0));
-    for (let i = 1; i < rows + 1; i++)
-        for (let j = 1; j < cols + 1; j++)
-            P[i][j] = board[i - 1][j - 1];
-
-    // update the board based on the padded copy
-    for (let i = 1; i < rows + 1; i++) {
-        for (let j = 1; j < cols + 1; j++) {
-            const neighbors = P[i - 1][j - 1] + P[i - 1][j] + P[i - 1][j + 1] + P[i][j + 1] + P[i + 1][j + 1] + P[i + 1][j] + P[i + 1][j - 1] + P[i][j - 1];
-            if (P[i][j]) {
-                if (neighbors < 2 || neighbors > 3) board[i - 1][j - 1] = 0;
-            } else {
-                if (neighbors === 3) board[i - 1][j - 1] = 1;
-            }
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
+            const neighbors = getNeighbors(i, j);
+            if (board[i][j] === 1 && neighbors >= 2 && neighbors <= 3) board[i][j] = 3;
+            if (board[i][j] === 0 && neighbors === 3) board[i][j] = 2;
         }
     }
+
+    for (let i = 0; i < rows; i++)
+        for (let j = 0; j < cols; j++)
+            board[i][j] >>= 1;
 };
