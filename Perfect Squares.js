@@ -18,17 +18,13 @@ Explanation: 13 = 4 + 9.
  * @param {number} n
  * @return {number}
  */
+const squares = { 0: 0, 1: 1 };
 var numSquares = function (n) {
-    let result = 10000;
-    var helper = function (n) {
-        if (n === 0) return 0;
-        if (n === 1) return 1;
-
-        let max = Math.floor(Math.sqrt(n));
-        for (let i = max; i > 0; i--)
-            result = Math.min(result, 1 + helper(n - i * i));
-        return result;
-    };
-    result = helper(n);
-    return result;
+    let min = Number.MAX_VALUE;
+    for (let i = Math.floor(Math.sqrt(n)); i > 0; i--) {
+        let remainder = n - i * i;
+        min = Math.min(min, squares[remainder] + 1 || numSquares(remainder) + 1);
+    }
+    squares[n] = min;
+    return squares[n];
 }
