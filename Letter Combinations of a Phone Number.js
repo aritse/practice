@@ -37,7 +37,7 @@ var letterCombinations = function (digits) {
 
     const first = digits.substr(0, 1);
     const rest = digits.substr(1);
-    const combos = [...letterCombinations(rest)];
+    const combos = letterCombinations(rest);
 
     const result = [];
     map[first].forEach(char =>
