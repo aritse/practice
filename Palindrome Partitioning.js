@@ -8,19 +8,18 @@ Input: "xabcba"
 Output: [["x","a","b","c","b","a"],["x","abcba"],["x","a","bcb","a"]]
 */
 
+var isPalindrome = function (word) {
+    const midPoint = Math.floor(word.length / 2);
+    const firstHalf = word.substr(0, midPoint);
+    const secondHalf = word.substr(word.length - midPoint);
+    return firstHalf === secondHalf.split('').reverse().join('');
+};
 
 /**
  * @param {string} s
  * @return {string[][]}
  */
 var partition = function (s) {
-    var isPalindrome = function (word) {
-        const midPoint = Math.floor(word.length / 2);
-        const firstHalf = word.substr(0, midPoint);
-        const secondHalf = word.substr(word.length - midPoint);
-        return firstHalf === secondHalf.split('').reverse().join('');
-    };
-
     var buildPalindromeMatrix = function () {
         const matrix = [...Array(len)].map(() => Array(len).fill(false));
         for (let i = 0; i < len; i++)
@@ -30,16 +29,14 @@ var partition = function (s) {
         return matrix;
     };
 
-    var dfs = function (pos) {
-        if (pos >= len) {
+    var helper = function (pos) {
+        if (pos >= len)
             partitions.push(Array.from(current));
-            return;
-        }
         for (let i = pos; i < len; i++) {
             if (matrix[pos][i]) {
                 const substr = s.substr(pos, i - pos + 1);
                 current.push(substr);
-                dfs(i + 1);
+                helper(i + 1);
                 current.pop();
             }
         }
@@ -49,8 +46,30 @@ var partition = function (s) {
     const matrix = buildPalindromeMatrix(s);
     const partitions = [];
     const current = [];
-    dfs(0);
+    helper(0);
     return partitions;
 };
 
-console.log(partition("xabcba"));
+/* Solution that I found online - very cool */
+
+var partition2 = function (s) {
+    const len = s.length;
+    const partitions = [];
+    const current = [];
+    var helper = function (pos) {
+        if (pos >= len)
+            partitions.push(Array.from(current));
+        for (let i = pos; i < len; i++) {
+            const substr = s.substring(pos, i + 1);
+            if (isPalindrome(substr)) {
+                current.push(substr);
+                helper(i + 1);
+                current.pop();
+            }
+        }
+    }
+    helper(0);
+    return partitions;
+};
+
+console.log(partition2("xabcba"));
