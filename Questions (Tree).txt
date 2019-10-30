@@ -1,0 +1,39 @@
+TERMS:
+Node - any node (root, in-node and leaf)
+Leaf node - has no child node
+Root node - has no parent node
+Child node - has a parent node
+Binary tree - every node has up to 2 children
+Ternary tree - every node has up to 3 children
+N-ary tree - every node has up to N children
+10-ary tree - every node has up to 10 children (for example, tree to to represent 10 digit phone numbers)
+Binary search tree - where all left descendents <= n <= all right descendents
+Descendents - all nodes below a parent node
+Balanced tree - where nodes are balanced enough to ensure O(logn) to insert and find operations
+Unbalanced tree - where left left subtree and right subtree of a node vary significantly
+Red-black tree
+AVL tree
+Complete binary tree - every level is fully filled except the last level is filled from left to right
+Full binary tree - every node has 0 or 2 children
+Perfect binary tree - both full and complete binary tree that 2^k -1 number of nodes.
+Binary tree traversal - DFS (in-order, pre-order, post-order) and BFS
+In-order - visit left subtree, visit current node and visit right subtree. On BST, it produces sorted list.
+Pre-order - visit current node, visit left subtree, and visit right subtree. Root is at first.
+Post-order - visit left subtree, visit right subtree and visit current node. Root is at last.
+Binary heap - reprsents binary tree
+Ternary heap - represents ternary tree
+Min-heap - complete binary tree where each node is smaller than its children. Root is min.
+Max-heap - complete binary tree where each node is larger than its children. Root is max.
+Trie - variant of n-ary tree where characters are stored at each node. Each path represents a word. Complete word is indicated by 
+    a terminating node. Path without the terminating node indicates words that start with such prefix.
+
+CONSIDERATIONS:
+Worst case and average case time may vary wildly and we must evaluate both.
+Don't assume a tree is perfect binary tree.
+
+QUESTIONS:
+Terms vary slightly across different textbooks and sources. Clarify ambiguities.
+Can the tree have duplicate values?
+The duplicate value is on the left or right side of a node?
+Is the tree a binary search tree (BST)?
+Balanced or unbalanced tree?

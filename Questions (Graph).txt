@@ -1,0 +1,22 @@
+TERMS:
+Graph - tree is an instance of a graph, but not all graphs are a tree because a graph can have cycles.
+Edge - connection between two nodes
+Directed - one way
+Undirected - two way
+Vertex - node
+Connected graph - path found between every pair of vertices
+Isolated graph - not connected graph
+Adjacency list - every vertex stores a list of adjacent vertices. In undirected graph, an edge is stored twice.
+    Can use array, hash table, linked list can be used to reprsent an adjacency list.
+Adjacency matrix - NxN matrix where N is the number of nodes. Value 1 reprsents that there is an edge between 2 nodes.
+    In undirected graph, the matrix is symmetric (overlap if folded diagnally).
+DFS - start at a node and explore each branch completely before moving on to the next branch. Simpler than BFS. Must 
+    mark a node as Visited to avoid infinite loop. Recursive.
+BFS - start at a node and explore each neighbor before moving on to any of their children. Used to find shortest path.
+    Not recursive. Use queue and loop.
+Bidirectional search - used to find the shortest path. Run two BFS on source and destination until the searches collide.
+    Faster than a single BFS by a factor of k^(d/2).
+
+CONSIDERATIONS:
+
+QUESTIONS:
