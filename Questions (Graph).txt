@@ -8,8 +8,10 @@ Connected graph - path found between every pair of vertices
 Isolated graph - not connected graph
 Adjacency list - every vertex stores a list of adjacent vertices. In undirected graph, an edge is stored twice.
     Can use array, hash table, linked list can be used to reprsent an adjacency list.
+    Only valid nodes are visited.
 Adjacency matrix - NxN matrix where N is the number of nodes. Value 1 reprsents that there is an edge between 2 nodes.
     In undirected graph, the matrix is symmetric (overlap if folded diagnally).
+    Visits every single element of the matrix.
 DFS - start at a node and explore each branch completely before moving on to the next branch. Simpler than BFS. Must 
     mark a node as Visited to avoid infinite loop. Recursive.
 BFS - start at a node and explore each neighbor before moving on to any of their children. Used to find shortest path.

@@ -9,7 +9,7 @@ Given a directed graph, design an algorithm to find out whether there is route b
  * @param {number} end - value of end node
  * @returns {boolean}
  */
-var routeExists = function (graph, start, end) {
+var routeExistsBFS = function (graph, start, end) {
     const queue = [];
     let node = graph.nodes[start];
     node.visited = true;
@@ -29,6 +29,25 @@ var routeExists = function (graph, start, end) {
     return false;
 };
 
+/**
+ * 
+ * @param {Graph} graph - directed graph
+ * @param {number} start - value of start node 
+ * @param {number} end - value of end node
+ * @returns {boolean}
+ */
+var routeExistsDFS = function (graph, start, end) {
+    if (start === end) return true;
+    const node = graph.nodes[start];
+    node.visited = true;
+    for (let i = 0; i < node.children.length; i++) {
+        const child = node.children[i];
+        if (!graph.nodes[child].visited && routeExistsDFS(graph, child, end))
+            return true;
+    }
+    return false;
+}
+
 class Node {
     constructor(value, children, visited = false) {
         this.value = value;
@@ -38,17 +57,18 @@ class Node {
 }
 
 class Graph {
-    constructor(adjacencyList) {
-        this.nodes = Array(adjacencyList.length);
-        for (let i = 0; i < adjacencyList.length; i++)
-            this.nodes[i] = new Node(i, adjacencyList[i]);
+    constructor(adjList) {
+        this.nodes = Array(adjList.length);
+        for (let i = 0; i < adjList.length; i++)
+            this.nodes[i] = new Node(i, adjList[i]);
     }
 }
 
-const adjacencyList = [[1], [2], [0, 3], [2], [6], [4], [5]];
-const graph = new Graph(adjacencyList);
-const [start, end] = [0, 3];
-console.log(routeExists(graph, start, end));
+const adjList = [[1], [2], [0, 3], [2], [6], [4], [5]];
+const graph = new Graph(adjList);
+const [start, end] = [0, 6];
+// console.log("BFS traversal: ", routeExistsBFS(graph, start, end));
+console.log("DFS traversal: ", routeExistsDFS(graph, start, end));
 
 /*
 QUESTIONS
