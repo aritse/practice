@@ -4,42 +4,33 @@ Given a directed graph, design an algorithm to find out whether there is route b
 
 /**
  * 
- * @param {Graph} graph 
- * @param {number} start 
- * @param {number} end 
+ * @param {Graph} graph - directed graph
+ * @param {number} start - value of start node 
+ * @param {number} end - value of end node
  * @returns {boolean}
  */
-var routeExists = function (graph, s, e) {
+var routeExists = function (graph, start, end) {
     const queue = [];
-    const [start, end] = [graph.nodes[s], graph.nodes[e]];
-
-    start.visited = Status[1];
-    queue.push(start);
+    let node = graph.nodes[start];
+    node.visited = true;
+    queue.push(node);
     while (queue.length > 0) {
-        const node = queue.shift();
-        if (node.value === end.value) {
-            return true;
-        }
-        for (let i = 0; i < node.children.length; i++) {
-            const child = graph.nodes[node.children[i]];
-            if (child.visited === Status[0]) {
-                child.visited = Status[1];
+        node = queue.shift();
+        if (node.value === end) return true;
+
+        node.children.forEach(i => {
+            const child = graph.nodes[i];
+            if (!child.visited) {
+                child.visited = true;
                 queue.push(child);
             }
-        }
-        node.visited = Status[2];
+        });
     }
     return false;
 };
 
-const Status = {
-    0: 'not visited',
-    1: "visiting",
-    2: "visited"
-}
-
 class Node {
-    constructor(value, children, visited = Status[0]) {
+    constructor(value, children, visited = false) {
         this.value = value;
         this.children = Array.from(children);
         this.visited = visited;
@@ -56,13 +47,12 @@ class Graph {
 
 const adjacencyList = [[1], [2], [0, 3], [2], [6], [4], [5]];
 const graph = new Graph(adjacencyList);
-const [start, end] = [3, 6];
-
+const [start, end] = [0, 3];
 console.log(routeExists(graph, start, end));
 
 /*
 QUESTIONS
 Does the function determine a route between given two nodes? Yes.
-The route from start to end? Yes.
+The route from start to end? Yes, not the other way around.
 Does the function determine if the graph is a connected graph? No.
 */
