@@ -8,7 +8,7 @@ var getHeight = root => root ? 1 + Math.max(getHeight(root.left), getHeight(root
 var isBalanced = root => {
     if (root) {
         const diff = Math.abs(getHeight(root.left) - getHeight(root.right));
-        return isBalanced(root.left) && isBalanced(root.right) && diff < 2;
+        return diff < 2 && isBalanced(root.left) && isBalanced(root.right);
     }
     return true;
 };
