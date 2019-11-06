@@ -32,11 +32,11 @@ var indexOf = function (array, name) {
     for (let i = 0; i < array.length; i++)
         if (array[i].name === name)
             return i;
+
     return -1;
 };
 
-var buildOrder = function (names, dependencies) {
-    const order = [];
+var buildGraph = function (names, dependencies) {
     const graph = new Graph();
     names.forEach(name => graph.projects.push(new Project(name)));
     dependencies.forEach(([name, prerequisite]) => {
@@ -44,6 +44,12 @@ var buildOrder = function (names, dependencies) {
         graph.projects[index].prerequisites.push(prerequisite);
     });
 
+    return graph;
+};
+
+var buildOrder = function (names, dependencies) {
+    const order = [];
+    const graph = buildGraph(names, dependencies);
     console.log(graph.toString());
 
     var complete = function (project) {
@@ -52,7 +58,9 @@ var buildOrder = function (names, dependencies) {
             for (let i = 0; i < len; i++) {
                 const index = indexOf(graph.projects, project.prerequisites[i]);
                 const prerequisite = graph.projects[index];
-                if (!prerequisite.completed) complete(prerequisite);
+                if (!prerequisite.completed) {
+                    complete(prerequisite);
+                }
             }
         }
         order.push(project.name);
