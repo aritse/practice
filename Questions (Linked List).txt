@@ -1,0 +1,17 @@
+TERMS:
+Singly linked list - node has a pointer to next node
+Doubly linked list - node has pointers to both next and previous nodes
+Runner technique - fast pointer moves ahead by a fixed amount or multiples of the slow pointer
+
+CONSIDERATIONS:
+Linked list doesn't provide a constant time access to a particular node.
+Benefit of a linked list is you can add and remove items from the beginning of
+the linked list in constant time.
+Be careful when updating the head pointer because it could be referenced elsewhere.
+Check null pointer
+Update head and tail pointers appropriately
+Deallocate deleted node if there is no automatic memory management
+Recursive approach may be easier to implement.
+
+QUESTIONS:
+Is the linked list singly or doubly?
