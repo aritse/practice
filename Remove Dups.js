@@ -5,8 +5,11 @@ class Link {
     }
 
     toString() {
-        if (this.next) return this.data.toString().concat(" => ");
-        else return this.data.toString().concat(" : ");
+        if (this.next) {
+            return this.data.toString().concat(" => ");
+        } else {
+            return this.data.toString().concat(" => end ");
+        }
     }
 }
 
@@ -18,60 +21,72 @@ class LinkedList {
     appendToTail(data) {
         let n = this.head;
         let link = new Link(data);
-        if (this.head) {
-            while (n.next) n = n.next;
+        if (this.head === null) {
+            this.head = link;
+        } else {
+            while (n.next !== null) {
+                n = n.next;
+            }
             n.next = link;
-        } else this.head = link;
+        }
     }
 
-    /** Using a hash table */
+    deleteNodes(data) {
+        while (this.head.data === data) {
+            this.head = this.head.next;
+        }
+        let h = this.head;
+        while (h.next !== null) {
+            if (h.next.data === data) h.next = h.next.next;
+            else h = h.next;
+        }
+    }
+
+    /* We can use a hash table because a link pointer is unique
+     * and therefore can serve as a key to the hash table. This approach
+     * removes duplicates; however, modifies the order of linked list.
+     * This is only to show that for some problems, we can use a hash table. */
     removeDups2() {
         let hash = {};
-        let n = this.head;
-        while (n) {
-            hash[n.data] = hash[n.data] + 1 || 1;
-            n = n.next;
+        let h = this.head;
+
+        // Count (duplicate element count will be > 1)
+        while (h !== null) {
+            hash[h.data] = hash[h.data] + 1 || 1;
+            h = h.next;
         }
+
         for (const [k, v] of Object.entries(hash)) {
             if (v > 1) {
-                this.deleteNode(Number(k));
+                this.deleteNodes(Number(k));
                 this.appendToTail(Number(k));
             }
         }
     }
 
-    /** Using two pointers */
+    /* Using two pointers is the better approach to the problem
+    because it leaves the original linked list in tact. */
     removeDups() {
         let current = this.head;
         while (current) {
             let runner = current;
             while (runner.next) {
-                if (current.data === runner.next.data)
+                if (current.data === runner.next.data) {
                     runner.next = runner.next.next;
-                else
+                } else {
                     runner = runner.next;
+                }
             }
             current = current.next;
         }
     }
 
-    deleteNode(data) {
-        while (this.head.data === data) {
-            this.head = this.head.next;
-        }
-        let n = this.head;
-        while (n.next) {
-            if (n.next.data === data) n.next = n.next.next;
-            else n = n.next;
-        }
-    }
-
     toString() {
-        let n = this.head;
+        let h = this.head;
         let str = "";
-        while (n) {
-            str = str.concat(n.toString());
-            n = n.next;
+        while (h !== null) {
+            str += h.toString();
+            h = h.next;
         }
         return str;
     }
@@ -84,13 +99,13 @@ for (let i = 0; i < 4; i++) { linkedList.appendToTail(5); }
 for (let i = 0; i < 10; i++) { linkedList.appendToTail(i); }
 for (let i = 0; i < 10; i += 3) { linkedList.appendToTail(i); }
 
-console.log("Linked list built");
+console.log("Original linked list:");
 console.log(linkedList.toString());
-console.log("Deleting all occurrences of ", 3);
-linkedList.deleteNode(3);
+
+console.log("\nDeleted all ", 5);
+linkedList.deleteNodes(5);
 console.log(linkedList.toString());
-console.log("Deleted ", 3);
-console.log("Removing duplicates...");
+
+console.log("\nDuplicates removed:");
 linkedList.removeDups();
 console.log(linkedList.toString());
-console.log("Removed duplicates");
