@@ -50,32 +50,59 @@ var buildGraph = function (names, dependencies) {
 var buildOrder = function (names, dependencies) {
     const order = [];
     const graph = buildGraph(names, dependencies);
+    console.log("\nAdjacency list:");
     console.log(graph.toString());
+
+    var prerequisitesCompleted = function (project) {
+        const len = project.prerequisites.length;
+        for (let i = 0; i < len; i++) {
+            const index = indexOf(graph.projects, project.prerequisites[i]);
+            const prerequisite = graph.projects[index];
+            if (!prerequisite.completed) {
+                return false;
+            }
+        }
+        return true;
+    };
 
     var complete = function (project) {
         const len = project.prerequisites.length;
-        if (len > 0) {
-            for (let i = 0; i < len; i++) {
-                const index = indexOf(graph.projects, project.prerequisites[i]);
-                const prerequisite = graph.projects[index];
-                if (!prerequisite.completed) {
+        for (let i = 0; i < len; i++) {
+            const index = indexOf(graph.projects, project.prerequisites[i]);
+            const prerequisite = graph.projects[index];
+            if (!prerequisite.completed) {
+                if (!prerequisite.visited) {
+                    prerequisite.visited = true;
                     complete(prerequisite);
+                } else {
+                    return;
                 }
             }
         }
-        order.push(project.name);
-        project.completed = true;
+        if (prerequisitesCompleted(project)) {
+            order.push(project.name);
+            project.completed = true;
+        } else {
+            return;
+        }
     };
 
     graph.projects.forEach(project => {
-        if (!project.completed)
+        if (!project.completed) {
+            project.visited = true;
             complete(project);
+        }
     });
 
-    if (order.length < names.length) throw Error;
+    if (order.length < names.length) return [];
     else return order;
 };
 
+/* Driver */
 const projects = ["a", "b", "c", "d", "e", "f"];
 const dependencies = [["d", "a"], ["b", "f"], ["d", "b"], ["a", "f"], ["c", "d"]];
-console.log(buildOrder(projects, dependencies));
+console.log("Project completion order: ", buildOrder(projects, dependencies));
+
+const projects2 = ["a", "b", "c"];
+const dependencies2 = [["a", "b"], ["b", "c"], ["c", "a"]];
+console.log("Project completion order: ", buildOrder(projects2, dependencies2));
