@@ -1,0 +1,13 @@
+TERMS:
+add(item) - adds an item to the end of the queue
+remove() - removes an item from the beginning of the queue
+isEmpty() - returns true if the queue is isEmpty
+
+CONSIDERATIONS:
+A queue can be implemented with a linked list also.
+Make sure update the first and last nodes in a queue.
+A stack is used to implement breadth first search. In BFS, we used a queue to stock a list of nodes that we need
+    to process. Each time we process a node, we add its adjacent nodes to the back fo the queue. This allows us to 
+    process nodes in the order in which they are viewed.
+    
+QUESTIONS:
