@@ -1,0 +1,8 @@
+DESCRIPTION
+Desribe how you could use a single array to implement three stacks.
+
+Three pointers to store the top of the stack. Indexes are determined by the mod.
+
+If index % 3 === 0, it is the first stack.
+If index % 3 === 1, it is the second stack.
+If index % 3 === 2, it is the third stack.
