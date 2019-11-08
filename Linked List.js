@@ -13,9 +13,13 @@ class Link {
     }
 }
 
-export class LinkedList {
+class LinkedList {
     constructor() {
         this.head = null;
+    }
+
+    isEmpty() {
+        return this.head === null;
     }
 
     add(data) {
@@ -48,6 +52,43 @@ export class LinkedList {
         }
     }
 
+    truncate() {
+        if (this.head !== null) {
+            if (this.head.next === null) {
+                this.head = null;
+            } else {
+                let runner = this.head;
+                while (runner.next.next !== null) {
+                    runner = runner.next;
+                }
+                runner.next = null;
+            }
+        }
+    }
+
+    remove() {
+        if (this.head != null) {
+            this.head = this.head.next;
+        }
+    }
+
+    delete(position) {
+        if (this.head === null || position < 1) {
+            return;
+        }
+        if (position === 1) {
+            this.head = this.head.next;
+        } else {
+            let runner = this.head;
+            for (let i = 1; i < position - 1 && runner.next.next !== null; i++) {
+                runner = runner.next;
+            }
+            if (runner.next.next !== null) {
+                runner.next = runner.next.next;
+            }
+        }
+    }
+
     deleteNodes(data) {
         while (this.head.data === data) {
             this.head = this.head.next;
@@ -69,23 +110,23 @@ export class LinkedList {
      * and therefore can serve as a key to the hash table. This approach
      * removes duplicates; however, modifies the order of linked list.
      * This is only to show that for some problems, we can use a hash table. */
-    removeDups2() {
-        let hash = {};
-        let h = this.head;
+    // removeDups2() {
+    //     let hash = {};
+    //     let h = this.head;
 
-        // Count (duplicate element count will be > 1)
-        while (h !== null) {
-            hash[h.data] = hash[h.data] + 1 || 1;
-            h = h.next;
-        }
+    //     // Count (duplicate element count will be > 1)
+    //     while (h !== null) {
+    //         hash[h.data] = hash[h.data] + 1 || 1;
+    //         h = h.next;
+    //     }
 
-        for (const [k, v] of Object.entries(hash)) {
-            if (v > 1) {
-                this.deleteNodes(Number(k));
-                this.append(Number(k));
-            }
-        }
-    }
+    //     for (const [k, v] of Object.entries(hash)) {
+    //         if (v > 1) {
+    //             this.deleteNodes(Number(k));
+    //             this.append(Number(k));
+    //         }
+    //     }
+    // }
 
     /* Using two pointers is the better approach to the problem
     because it leaves the original linked list in tact. */
