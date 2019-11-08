@@ -16,12 +16,27 @@ class Link {
 export class LinkedList {
     constructor() {
         this.head = null;
-        this.length = 0;
+    }
+
+    add(data) {
+        const link = new Link(data);
+        link.next = this.head;
+        this.head = link;
+    }
+
+    insert(data, position) {
+        const link = new Link(data);
+        let runner = this.head;
+        while (position > 1) {
+            runner = runner.next;
+            position--;
+        }
+        link.next = runner.next;
+        runner.next = link;
     }
 
     append(data) {
         const link = new Link(data);
-
         if (this.head === null) {
             this.head = link;
         } else {
@@ -31,16 +46,6 @@ export class LinkedList {
             }
             runner.next = link;
         }
-
-        this.length++;
-    }
-
-    add(data) {
-        const link = new Link(data);
-
-        link.next = this.head;
-        this.head = link;
-        this.length++;
     }
 
     deleteNodes(data) {
