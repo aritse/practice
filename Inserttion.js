@@ -18,15 +18,26 @@ var printBits = function (n) {
 };
 
 var insert = function (N, M, i, j) {
-    let mask = ~0 << i;
-    mask &= (~0 >>> (32 - j - 1));
-    mask = ~mask;
-    N &= mask;
-    M <<= i;
+    let x = ~0 << i;             // 11111100
+    let y = ~0 >>> (32 - j - 1); // 00011111
+    let z = x & y;               // 00011100
+    let mask = ~z;               // 11100011
+    N &= mask; // clears bits from i to j
+    M <<= i; // align M to position i
     return N | M;
 };
 
-let result = insert(1024, 19, 2, 6); // 1100
+let result = insert(1024, 19, 2, 6); // expected 1100
 console.log(result);
-result = insert(53, 26, 2, 6); // 105
+result = insert(53, 26, 2, 6); // expected 105
 console.log(result);
+
+/* APPROACH
+First, we clear the bits of N at position from i to j by using a mask that looks like
+11100011. Then, left shift M by i to align M to the appropriate position. Finally, we OR
+the resulting N and M.
+
+To create the mask, we first do a left shift on 11111111 by i amount resulting in number like
+11111100. Then, we do a logical right shift on 11111111 by (32-j -1) resulting in number like
+00011111. Then, we do AND of these two numbers resulting in number like 00011100. Finally,
+we negate this resulting in a mask like 11100011. */
