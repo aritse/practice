@@ -13,13 +13,23 @@ class Link {
     }
 }
 
-class LinkedList {
+export class LinkedList {
     constructor() {
         this.head = null;
     }
 
     isEmpty() {
         return this.head === null;
+    }
+
+    length() {
+        let len = 0;
+        let runner = this.head;
+        while (runner) {
+            len++;
+            runner = runner.next;
+        }
+        return len;
     }
 
     add(data) {
@@ -37,6 +47,12 @@ class LinkedList {
         }
         link.next = runner.next;
         runner.next = link;
+    }
+
+    appendBulk(values) {
+        values.forEach(value => {
+            this.append(value);
+        });
     }
 
     append(data) {

@@ -81,14 +81,9 @@ var addNumbersInForward = function (listA, listB) {
 
 // Build linked lists
 const listA = new LinkedList();
-listA.append(6);
-listA.append(1);
-listA.append(7);
-listA.append(3);
+listA.appendBulk([6, 1, 7, 3]);
 const listB = new LinkedList();
-listB.append(2);
-listB.append(9);
-listB.append(5);
+listB.appendBulk([2, 9, 5]);
 
 // Print linked lists
 console.log("list A: ", listA.toString());
