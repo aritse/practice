@@ -4,31 +4,33 @@ Given a BST with distinct elements, print all possible arrays that could have le
 
 import { BST } from "./MyTree";
 
-var findSequences = function (root) {
-    // Bases cases
-    if (!root) return [];
-    if (!root.left && !root.right) return [[root.value]];
+var findSequences = function (node) {
+    if (!node) return [[]];
+    const leftSequences = findSequences(node.left);
+    const rightSequences = findSequences(node.right);
 
-    let leftSeq = root.left ? findSequences(root.left) : [];
-    let rightSeq = root.right ? findSequences(root.right) : [];
+    const sequences = [];
+    leftSequences.forEach(leftSeq => {
+        rightSequences.forEach(rightSeq => {
+            if (leftSeq.length === 0 && rightSeq.length === 0)
+                sequences.push([node.value]);
+            else if (leftSeq.length === 0)
+                sequences.push([node.value, ...rightSeq]);
+            else if (rightSeq.length === 0)
+                sequences.push([node.value, ...leftSeq]);
+            else sequences.push(
+                [node.value, ...leftSeq, ...rightSeq],
+                [node.value, ...rightSeq, ...leftSeq]
+            );
+        });
+    });
 
-    const result = [];
-    if (leftSeq.length < 1) rightSeq.forEach(r => result.push([root.value, ...r]));
-    else if (rightSeq.length < 1) leftSeq.forEach(l => result.push([root.value, ...l]));
-    else {
-        leftSeq.forEach(l =>
-            rightSeq.forEach(r =>
-                result.push([root.value, ...l, ...r], [root.value, ...r, ...l])
-            )
-        )
-    }
-    return result;
+    return sequences;
 };
 
 // Driver
-
-// const values = [1, 2, 3, 4, 5, 6, 7];
 const values = [1, 2, 3, 4, 5, 6, 7, 8];
 const tree = new BST(values);
+console.log(tree);
 const seq = findSequences(tree.root);
 console.log(seq);
