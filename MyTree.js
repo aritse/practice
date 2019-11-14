@@ -16,7 +16,7 @@ class TreeNode {
     }
 }
 
-export class Tree {
+export class BST {
     constructor(numbers = null) {
         this.root = numbers ? this.createMinBST(numbers) : null;
     }
