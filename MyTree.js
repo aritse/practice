@@ -33,32 +33,35 @@ export class Tree {
         return node;
     };
 
-    preorder() { this.preorder(this.root); }
-    inorder() { this.inorder(this.root); }
-    postorder() { this.postorder(this.root); }
+    preorder() { return this.preorderHelper(this.root, []); }
+    inorder() { return this.inorderHelper(this.root, []); }
+    postorder() { return this.postorderHelper(this.root, []); }
 
-    preorder(root) {
+    preorderHelper(root, out) {
         if (root) {
-            console.log(root.value);
-            this.preorder(root.left);
-            this.preorder(root.right);
+            out.push(root.value);
+            this.preorderHelper(root.left, out);
+            this.preorderHelper(root.right, out);
         }
+        return out;
     };
 
-    inorder(root) {
+    inorderHelper(root, out) {
         if (root) {
-            this.inorder(root.left);
-            console.log(root.value);
-            this.inorder(root.right);
+            this.inorderHelper(root.left, out);
+            out.push(root.value);
+            this.inorderHelper(root.right, out);
         }
+        return out;
     };
 
-    postorder(root) {
+    postorderHelper(root, out) {
         if (root) {
-            this.postorder(root.left);
-            this.postorder(root.right);
-            console.log(root.value);
+            this.postorderHelper(root.left, out);
+            this.postorderHelper(root.right, out);
+            out.push(root.value);
         }
+        return out;
     };
 
     toString() {
