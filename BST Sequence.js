@@ -60,17 +60,19 @@ var findSequences = function (node) {
 // Driver
 const values = [1, 2, 3, 4, 5];
 const tree = new BST(values);
-console.log(tree);
+console.log("BST");
+console.log(tree.root.value);
+console.log(tree.root.left);
+console.log(tree.root.right);
 const seq = findSequences(tree.root);
+console.log("\n\nSet of sequences that could result in BST:");
 console.log(seq);
 /*
 EXPECTED
-    [
-        [3,2,5,1,4],
-        [3,2,5,4,1],
-        [3,2,1,5,4],
-        [3,5,2,4,1],
-        [3,5,2,1,4],
-        [3,5,4,2,1]
-    ]
+[ [ 3, 2, 1, 5, 4 ],
+  [ 3, 2, 5, 1, 4 ],
+  [ 3, 2, 5, 4, 1 ],
+  [ 3, 5, 2, 1, 4 ],
+  [ 3, 5, 2, 4, 1 ],
+  [ 3, 5, 4, 2, 1 ] ]
 */
