@@ -7,8 +7,8 @@ Binary tree - every node has up to 2 children
 Ternary tree - every node has up to 3 children
 N-ary tree - every node has up to N children
 10-ary tree - every node has up to 10 children (for example, tree to to represent 10 digit phone numbers)
-Binary search tree - where all left descendents <= n <= all right descendents
-Descendents - all nodes below a parent node
+Binary search tree - where all left descendants <= n <= all right descendants
+Descendants - all nodes below a parent node
 Balanced tree - where nodes are balanced enough to ensure O(logn) to insert and find operations
 Unbalanced tree - where left left subtree and right subtree of a node vary significantly
 Red-black tree
@@ -20,7 +20,7 @@ Binary tree traversal - DFS (in-order, pre-order, post-order) and BFS
 In-order - visit left subtree, visit current node and visit right subtree. On BST, it produces sorted list.
 Pre-order - visit current node, visit left subtree, and visit right subtree. Root is at first.
 Post-order - visit left subtree, visit right subtree and visit current node. Root is at last.
-Binary heap - reprsents binary tree
+Binary heap - represents binary tree
 Ternary heap - represents ternary tree
 Min-heap - complete binary tree where each node is smaller than its children. Root is min.
 Max-heap - complete binary tree where each node is larger than its children. Root is max.
