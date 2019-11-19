@@ -24,6 +24,7 @@ var isSubtree = function (a, b) {
         return false;
     };
 
+    if (b === null) return true;
     return isSubtreeHelper(a);
 };
 
