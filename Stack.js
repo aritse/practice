@@ -11,9 +11,8 @@ export class Stack {
     }
 
     pop() {
-        if (this.isEmpty()) {
+        if (this.isEmpty())
             throw new Error("Empty stack");
-        }
         const item = this.top.data;
         this.top = this.top.next;
         return item;
@@ -26,13 +25,22 @@ export class Stack {
     }
 
     peek() {
-        if (this.isEmpty()) {
+        if (this.isEmpty())
             throw new Error("Empty stack");
-        }
         return this.top.data;
     }
 
     isEmpty() {
         return this.top === null;
+    }
+
+    list() {
+        const elements = [];
+        let runner = this.top;
+        while (runner) {
+            elements.push(runner.data);
+            runner = runner.next;
+        }
+        return elements;
     }
 }
