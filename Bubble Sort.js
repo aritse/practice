@@ -5,11 +5,14 @@ are slowly bubble up to the beginning of the list. */
 
 var bubbleSort = function (numbers) {
     for (let i = 0; i < numbers.length - 1; i++)
-        for (let j = i + 1; j < numbers.length; j++)
-            if (numbers[i] > numbers[j])
-                [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
+        for (let j = 0; j < numbers.length - 1; j++)
+            if (numbers[j] > numbers[j + 1])
+                [numbers[j + 1], numbers[j]] = [numbers[j], numbers[j + 1]];
     return numbers;
 };
 
-const numbers = [1, 9, 87, 4, 3, 6, 109, 8, 4, 3, 27];
-console.log(bubbleSort(numbers));
+const numbers = Array(20);
+for (let i = 0; i < 20; i++)
+    numbers[i] = Math.random() * 100 | 0;
+bubbleSort(numbers);
+console.log(numbers);
