@@ -1,7 +1,7 @@
 import { Stack } from "./Stack";
 
 /* DESCRIPTION
-Implement a MyQueue class which implements a queu using two stacks. */
+Implement a MyQueue class which implements a queue using two stacks. */
 
 class MyQueue {
     constructor() {
