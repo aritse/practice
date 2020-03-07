@@ -1,0 +1,22 @@
+TERMS:
+add(item) - adds an item to the end of the queue
+remove() - removes an item from the beginning of the queue
+isEmpty() - returns true if the queue is isEmpty
+
+CONSIDERATIONS:
+Array and string questions are interchangeable.
+StringBuilder is a dynamically resizing data structure like an ArrayList in Java.
+Using a simple String data type and string concat results in O(n^2). StringBuilder
+results in O(n).
+    
+QUESTIONS & CLARIFICATIONS
+Lowercase?
+ASCII (128) or Unicode?
+Extended ASCII (256)
+Special symbols?
+Numbers?
+Uppercase and lowercase are treated same
+Time and space constraint?
+Min and max lengths?
+Allowed to modify the string?
+Whitespace?
