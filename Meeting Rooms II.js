@@ -14,15 +14,31 @@ NOTE: input types have been changed on April 15, 2019. Please reset to default c
  * @param {number[][]} intervals
  * @return {number}
  */
-var minMeetingRooms = function(intervals) {
-  const slots = { 0: 0 };
-  intervals.forEach(interval => {
-    for (let i = interval[0]; i < interval[1]; i++) {
-      slots[i] = slots[i] + 1 || 1;
+const minMeetingRooms = function(meetings) {
+  const rooms = [];
+
+  // sort meetings by start time
+  meetings.sort((a, b) => a[0] - b[0]);
+
+  meetings.forEach(([startTime, endTime]) => {
+    // sort rooms by availability
+    rooms.sort((a, b) => a - b);
+
+    let roomsLeft = rooms.length;
+    while (roomsLeft) {
+      const available = rooms[roomsLeft - 1];
+      if (startTime >= available) {
+        rooms[roomsLeft - 1] = endTime;
+        break;
+      }
+      roomsLeft--;
     }
+    if (!roomsLeft) rooms.push(endTime);
   });
-  return Math.max(...Object.values(slots));
+
+  return rooms.length;
 };
+
 console.log(
   minMeetingRooms([
     [0, 30],
