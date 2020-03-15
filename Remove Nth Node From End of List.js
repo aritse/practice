@@ -25,17 +25,15 @@ Could you do this in one pass? */
  * @param {number} n
  * @return {ListNode}
  */
+
 const removeNthFromEnd = (head, n) => {
-  const traverse = element => {
-    if (element) {
-      traverse(element.next);
-      n--;
-      if (n === -1) element.next = element.next.next;
-    }
+  const traverse = node => {
+    if (node.next) traverse(node.next);
+    if (n === 0) node.next = node.next.next;
+    n--;
   };
 
-  if (!head.next && n === 1) return null;
-
   traverse(head);
+  if (n === 0) head = head.next;
   return head;
 };
