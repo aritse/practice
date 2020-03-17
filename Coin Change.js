@@ -18,27 +18,21 @@ You may assume that you have an infinite number of each kind of coin. */
  * @return {number}
  */
 
+/**
+ * @param {number[]} coins
+ * @param {number} amount
+ * @return {number}
+ */
 const coinChange = (coins, amount) => {
-  const helper = (amount, stack) => {
-    if (amount === 0) return 0;
+  const dp = [0].concat(Array(amount).fill(Infinity));
 
-    for (let i = 0; i < coins.length; i++) {
-      const coin = coins[i];
-      if (amount >= coin) {
-        stack.push(coin);
-        const result = helper(amount - coin, stack);
-        if (result !== -1) {
-          min = Math.min(min, stack.length + result);
-        }
-        stack.pop();
-      }
-    }
-    return min < Infinity ? min : -1;
-  };
+  for (let i = 1; i <= amount; i++) {
+    coins.forEach(coin => {
+      if (i >= coin) dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+    });
+  }
 
-  let min = Infinity;
-  coins = coins.sort((a, b) => b - a);
-  return amount ? helper(amount, []) : 0;
+  return dp[amount] !== Infinity ? dp[amount] : -1;
 };
 
 const coins = [1, 2, 5];
