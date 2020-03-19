@@ -32,6 +32,25 @@ All elements in the matrix are distinct. */
  * @param {number[][]} matrix
  * @return {number[]}
  */
+/**
+ * @param {number[][]} matrix
+ * @return {number[]}
+ */
+var luckyNumbers = function(matrix) {
+  const nums = [];
+  const [n, m] = [matrix.length, matrix[0].length];
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < m; j++) {
+      const el = matrix[i][j];
+      let ok = true;
+      for (let k = 0; k < m; k++) if (matrix[i][k] < el) ok = false;
+      for (let k = 0; k < n; k++) if (matrix[i][k] > el) ok = false;
+      if (ok) nums.push(el);
+    }
+  }
+  return nums;
+};
+
 const luckyNumbers = matrix => {
   const [m, n] = [matrix.length, matrix[0].length];
   const luckNumbers = [];
