@@ -32,11 +32,7 @@ All elements in the matrix are distinct. */
  * @param {number[][]} matrix
  * @return {number[]}
  */
-/**
- * @param {number[][]} matrix
- * @return {number[]}
- */
-var luckyNumbers = function(matrix) {
+const luckyNumbers = function(matrix) {
   const nums = [];
   const [n, m] = [matrix.length, matrix[0].length];
   for (let i = 0; i < n; i++) {
@@ -44,44 +40,11 @@ var luckyNumbers = function(matrix) {
       const el = matrix[i][j];
       let ok = true;
       for (let k = 0; k < m; k++) if (matrix[i][k] < el) ok = false;
-      for (let k = 0; k < n; k++) if (matrix[i][k] > el) ok = false;
+      for (let k = 0; k < n; k++) if (matrix[k][j] > el) ok = false;
       if (ok) nums.push(el);
     }
   }
   return nums;
-};
-
-const luckyNumbers = matrix => {
-  const [m, n] = [matrix.length, matrix[0].length];
-  const luckNumbers = [];
-
-  const minIndices = [];
-  for (let i = 0; i < m; i++) {
-    let min = Infinity;
-    for (let j = 0; j < n; j++)
-      if (matrix[i][j] < min) {
-        minIndices[i] = [i, j];
-        min = matrix[i][j];
-      }
-  }
-
-  const maxIndices = [];
-  for (let j = 0; j < n; j++) {
-    let max = -Infinity;
-    for (let i = 0; i < m; i++)
-      if (matrix[i][j] > max) {
-        maxIndices[j] = [i, j];
-        max = matrix[i][j];
-      }
-  }
-
-  minIndices.forEach(([i, j]) => {
-    maxIndices.forEach(([x, y]) => {
-      if (i === x && j === y) luckNumbers.push(matrix[i][j]);
-    });
-  });
-
-  return luckNumbers;
 };
 
 console.log(
