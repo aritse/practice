@@ -1,11 +1,5 @@
 /* DESCRIPTION
-There are a total of numCourses courses you have to take, labeled from 0 to numCourses-1.
-
-Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is expressed as a pair: [0,1]
-
-Given the total number of courses and a list of prerequisite pairs, is it possible for you to finish all courses?
-
- 
+There are a total of numCourses courses you have to take, labeled from 0 to numCourses-1. Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is expressed as a pair: [0,1]. Given the total number of courses and a list of prerequisite pairs, is it possible for you to finish all courses?
 
 Example 1:
 
@@ -33,32 +27,31 @@ You may assume that there are no duplicate edges in the input prerequisites.
  * @param {number[][]} edges
  * @return {boolean}
  */
-const canFinish = (n, edges) => {
-  const visitNode = (course, path) => {
+const canFinish = (n, prerequisites) => {
+  const visit = (course, path) => {
     if (visited[course]) {
       if (path.indexOf(course) > -1) {
-        cannotFinish = true;
-        return;
-      } else {
-        return;
+        result = false;
       }
     } else {
       visited[course] = true;
-      path.push(course);
-      edges.forEach(([child, pre]) => {
-        if (pre === course) {
-          visitNode(child, path);
-        }
-      });
+      adjList[course].forEach(prerequisite => visit(prerequisite, path.concat(course)));
     }
   };
 
-  let cannotFinish = false;
+  let result = true;
+
+  // construct adjacency list representation of the graph
+  const adjList = Array.from(Array(n), () => Array());
+  prerequisites.forEach(([course, prerequisite]) => adjList[course].push(prerequisite));
+
+  // visit courses
   const visited = Array(n).fill(false);
-  edges.forEach(([course, pre]) => {
-    visitNode(course, []);
-  });
-  return !cannotFinish;
+  for (let course = 0; course < n; course++) {
+    if (!visited[course]) visit(course, []);
+  }
+
+  return result;
 };
 
 console.log(
@@ -68,7 +61,6 @@ console.log(
     [2, 0],
     [4, 1],
     [5, 0],
-    [1, 0],
-    [0, 4]
+    [1, 0]
   ])
 );
