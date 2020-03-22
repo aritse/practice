@@ -27,6 +27,9 @@ Of course, the context of these characters also matters in the input.
 Update (2015-02-10):
 The signature of the C++ function had been updated. If you still see your function signature accepts a const char * argument, please click the reload button to reset your code definition. */
 
+// My state diagram was pretty similar to this - https://github.com/gigglegrig/LeetCode/wiki/65.-Valid-Number
+// Coding is basically following the state diagram
+
 const isInt = c => (c >= "0" && c <= "9" ? true : false);
 
 /**
@@ -39,94 +42,44 @@ const isNumber = s => {
   let state = "q1";
 
   for (let i = 0; i < s.length; i++) {
-    console.log("char", s[i]);
+    let c = s[i];
     if (state === "q1") {
-      console.log("in state", state);
-      if (isInt(s[i])) {
-        state = "q3";
-        console.log("going to state:", state);
-      } else if (s[i] === "+" || s[i] === "-") {
-        state = "q2";
-        console.log("going to state:", state);
-      } else if (s[i] === ".") {
-        state = "q4";
-        console.log("going to state:", state);
-      } else state = "reject";
+      if (isInt(c)) state = "q3";
+      else if (c === "+" || c === "-") state = "q2";
+      else if (c === ".") state = "q4";
+      else state = "R";
     } else if (state === "q2") {
-      console.log("in state", state);
-      if (isInt(s[i])) {
-        state = "q3";
-        console.log("going to state:", state);
-      } else if (s[i] === ".") {
-        state = "q4";
-        console.log("going to state:", state);
-      } else state = "reject";
+      if (isInt(c)) state = "q3";
+      else if (c === ".") state = "q4";
+      else state = "R";
     } else if (state === "q3") {
-      console.log("in state", state);
-      while (isInt(s[i])) i++;
-      if (s[i] === ".") {
-        state = "q5";
-        console.log("going to state:", state);
-      } else if (s[i] === "e") {
-        state = "q6";
-        console.log("going to state:", state);
-      } else if (s[i] === " ") {
-        state = "q9";
-        console.log("going to state:", state);
-      } else if (s[i]) {
-        state = "reject";
-      }
+      while (isInt(c)) c = s[++i];
+      if (c === ".") state = "q5";
+      else if (c === "e") state = "q6";
+      else if (c === " ") state = "q9";
+      else if (c) state = "R";
     } else if (state === "q4") {
-      console.log("in state", state);
-      if (isInt(s[i])) {
-        state = "q5";
-        console.log("going to state:", state);
-      } else state = "reject";
+      if (isInt(c)) state = "q5";
+      else state = "R";
     } else if (state === "q5") {
-      console.log("in state", state);
-      while (isInt(s[i])) {
-        i++;
-      }
-      if (s[i] === "e") {
-        state = "q6";
-        console.log("going to state:", state);
-      } else if (s[i] === " ") {
-        state = "q9";
-        console.log("going to state:", state);
-      } else if (s[i]) {
-        state = "reject";
-      }
+      while (isInt(c)) c = s[++i];
+      if (c === "e") state = "q6";
+      else if (c === " ") state = "q9";
+      else if (c) state = "R";
     } else if (state === "q6") {
-      console.log("in state", state);
-      if (s[i] === "+" || s[i] === "-") {
-        state = "q7";
-        console.log("going to state:", state);
-      } else if (isInt(s[i])) {
-        state = "q8";
-        console.log("going to state:", state);
-      } else state = "reject";
+      if (c === "+" || c === "-") state = "q7";
+      else if (isInt(c)) state = "q8";
+      else state = "R";
     } else if (state === "q7") {
-      console.log("in state", state);
-      if (isInt(s[i])) {
-        state = "q8";
-        console.log("going to state:", state);
-      }
+      if (isInt(c)) state = "q8";
     } else if (state === "q8") {
-      console.log("in state", state);
-      while (isInt(s[i])) i++;
-      if (s[i] === " ") {
-        state = "q9";
-        console.log("going to state:", state);
-      } else if (s[i]) {
-        state = "reject";
-      }
+      while (isInt(c)) c = s[++i];
+      if (c === " ") state = "q9";
+      else if (c) state = "R";
     } else if (state === "q9") {
-      console.log("in state", state);
-      if (s[i]) {
-        state = "reject";
-      }
-      while (isInt(s[i])) i++;
-    } else if (state === "reject") break;
+      if (c) state = "R";
+      while (isInt(c)) c = s[++i];
+    } else if (state === "R") break;
   }
 
   return state === "q3" || state === "q5" || state === "q8" || state === "q9" ? true : false;
