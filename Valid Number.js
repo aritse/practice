@@ -38,48 +38,59 @@ const isInt = c => (c >= "0" && c <= "9" ? true : false);
  */
 const isNumber = s => {
   s = s.trim();
-
   let state = "q1";
 
   for (let i = 0; i < s.length; i++) {
     let c = s[i];
-    if (state === "q1") {
-      if (isInt(c)) state = "q3";
-      else if (c === "+" || c === "-") state = "q2";
-      else if (c === ".") state = "q4";
-      else state = "R";
-    } else if (state === "q2") {
-      if (isInt(c)) state = "q3";
-      else if (c === ".") state = "q4";
-      else state = "R";
-    } else if (state === "q3") {
-      while (isInt(c)) c = s[++i];
-      if (c === ".") state = "q5";
-      else if (c === "e") state = "q6";
-      else if (c === " ") state = "q9";
-      else if (c) state = "R";
-    } else if (state === "q4") {
-      if (isInt(c)) state = "q5";
-      else state = "R";
-    } else if (state === "q5") {
-      while (isInt(c)) c = s[++i];
-      if (c === "e") state = "q6";
-      else if (c === " ") state = "q9";
-      else if (c) state = "R";
-    } else if (state === "q6") {
-      if (c === "+" || c === "-") state = "q7";
-      else if (isInt(c)) state = "q8";
-      else state = "R";
-    } else if (state === "q7") {
-      if (isInt(c)) state = "q8";
-    } else if (state === "q8") {
-      while (isInt(c)) c = s[++i];
-      if (c === " ") state = "q9";
-      else if (c) state = "R";
-    } else if (state === "q9") {
-      if (c) state = "R";
-      while (isInt(c)) c = s[++i];
-    } else if (state === "R") break;
+    switch (state) {
+      case "q1":
+        if (isInt(c)) state = "q3";
+        else if (c === "+" || c === "-") state = "q2";
+        else if (c === ".") state = "q4";
+        else state = "R";
+        break;
+      case "q2":
+        if (isInt(c)) state = "q3";
+        else if (c === ".") state = "q4";
+        else state = "R";
+        break;
+      case "q3":
+        while (isInt(c)) c = s[++i];
+        if (c === ".") state = "q5";
+        else if (c === "e") state = "q6";
+        else if (c === " ") state = "q9";
+        else if (c) state = "R";
+        break;
+      case "q4":
+        if (isInt(c)) state = "q5";
+        else state = "R";
+        break;
+      case "q5":
+        while (isInt(c)) c = s[++i];
+        if (c === "e") state = "q6";
+        else if (c === " ") state = "q9";
+        else if (c) state = "R";
+        break;
+      case "q6":
+        if (c === "+" || c === "-") state = "q7";
+        else if (isInt(c)) state = "q8";
+        else state = "R";
+        break;
+      case "q7":
+        if (isInt(c)) state = "q8";
+        break;
+      case "q8":
+        while (isInt(c)) c = s[++i];
+        if (c === " ") state = "q9";
+        else if (c) state = "R";
+        break;
+      case "q9":
+        if (c) state = "R";
+        while (isInt(c)) c = s[++i];
+        break;
+      default:
+        return false;
+    }
   }
 
   return state === "q3" || state === "q5" || state === "q8" || state === "q9" ? true : false;
