@@ -2,7 +2,7 @@ using System;
 using System.Net;
 using System.Collections.Generic;
 using System.Linq;
-using static System.Windows.Forms.HtmlElement;
+using System.Text.RegularExpressions;
 
 namespace DownloadPageWebClient
 {
@@ -10,6 +10,13 @@ namespace DownloadPageWebClient
     {
         static void Main(string[] args)
         {
+            if (args.Length == 0)
+            {
+                Console.WriteLine("Challenge.exe <URL> <Top #> [excludeWord1 excludeWord2 excludeWord3 excludeWord4 ...]");
+                Console.WriteLine("Challenge.exe https://en.wikipedia.org/wiki/Microsoft 20 and the");
+                return;
+            }
+
             ServicePointManager.Expect100Continue = true;
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
@@ -23,11 +30,22 @@ namespace DownloadPageWebClient
 
             using (WebClient client = new WebClient())
             {
+                string section = "";
                 string html = client.DownloadString(url);
-                // HtmlElement el = GetElementById("History");
-                // Console.WriteLine(el);
 
-                string[] words = html.Split(' ');
+                string x = "id=\"History\""; // Section Starts
+                string y = "([\\S\\s]*)"; // History Section
+                string z = "id=\"Corporate_affairs\""; // Section ends
+                string strPattern = x + y + z;
+
+                Regex pattern = new Regex(strPattern);
+                Match match = pattern.Match(html);
+                if (match.Success)
+                {
+                    section = match.Groups[1].Value;
+                }
+
+                string[] words = section.Split(' ');
                 Dictionary<string, Int16> count = new Dictionary<string, Int16>();
                 foreach (var word in words)
                 {
