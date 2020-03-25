@@ -25,30 +25,28 @@ exention -> exection (replace 'n' with 'c')
 exection -> execution (insert 'u') */
 
 /**
- * @param {string} word1
- * @param {string} word2
+ * @param {string} from
+ * @param {string} to
  * @return {number}
  */
-const minDistance = (word1, word2) => {
-  const [len1, len2] = [word1.length, word2.length];
+const minDistance = (from, to) => {
+  const [len1, len2] = [from.length, to.length];
   const D = Array.from(Array(len2 + 1), () => Array(len1 + 1).fill(0));
 
   for (let i = 0; i <= len1; i++) D[0][i] = i;
   for (let i = 0; i <= len2; i++) D[i][0] = i;
 
   for (let i = 0; i < len2; i++) {
-    const c2 = word2[i];
     for (let j = 0; j < len1; j++) {
-      const c1 = word1[j];
-      if (c1 === c2) {
+      if (from[j] === to[i]) {
         D[i + 1][j + 1] = D[i][j];
       } else {
         D[i + 1][j + 1] = Math.min(D[i][j], D[i + 1][j], D[i][j + 1]) + 1;
       }
     }
   }
-  return D[len2][len1];
+  return D[len2][len1]; // D = solutions to subproblems
 };
 
-const [word1, word2] = ["benyam", "ephrem"];
-console.log(word1, word2, minDistance(word1, word2));
+const [from, to] = ["Ari is broke", "Ari is rich"];
+console.log(`Transformation from "${from}" to "${to}" is only ${minDistance(from, to)} steps away.`);
