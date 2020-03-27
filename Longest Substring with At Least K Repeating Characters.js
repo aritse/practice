@@ -58,3 +58,30 @@ console.log(longestSubstring("ababbc", 2)); // 5
 console.log(longestSubstring("", 1)); // 0
 console.log(longestSubstring("a", 1)); // 1
 console.log(longestSubstring("bbaaacbd", 3)); // 3
+
+/* Another JS solution found online ...
+
+Count each character in the input string. Then, split the input string on a character where the count
+is less than k because this character ruines everything and shouldn't be in any substrings. The split
+produces an array of substrings. Finally, for each substring, recursively solve the problem.
+
+var longestSubstring = function(s, k) {
+  let map = new Map();
+  map.clear();
+  for (item of s) {
+    if (map.has(item)) map.set(item, map.get(item) + 1);
+    else map.set(item, 1);
+  }
+  for ([item, val] of map) {
+    if (val < k) {
+      let ar = s.split(item);
+      let res = 0;
+      for (word of ar) {
+        res = Math.max(res, longestSubstring(word, k));
+      }
+      return res;
+    }
+  }
+  return s.length;
+};
+*/
