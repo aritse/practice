@@ -20,31 +20,36 @@ Output:
 The longest substring is "ababb", as 'a' is repeated 2 times and 'b' is repeated 3 times. */
 
 /**
- * @param {string} s
+ * @param {string} string
  * @param {number} k
  * @return {number}
  */
-const longestSubstring = (s, k) => {
-  let max = 0;
-  const count = {};
-  for (let i = 0; i < s.length; i++) {
-    count[s[i]] = count[s[i]] + 1 || 1;
+const longestSubstring = (string, k) => {
+  if (string.length < k) return 0;
 
-    if (i < k - 1) continue;
+  let longest = 0;
+  const count = {};
+
+  for (let right = 0; right < string.length; right++) {
+    const char = string[right];
+    count[char] = count[char] + 1 || 1;
+
+    if (right < k - 1 || count[char] < k) continue;
 
     const temp = Object.assign({}, count);
 
-    for (let j = 0; j <= i; j++) {
+    for (let left = 0; left <= right + 1 - k; left++) {
       if (Object.values(temp).every(v => v >= k)) {
-        max = Math.max(max, i - j + 1);
+        longest = Math.max(longest, right - left + 1);
         break;
       } else {
-        temp[s[j]]--;
-        // console.log("temp:", temp);
+        temp[string[left]] = temp[string[left]] - 1;
+        if (temp[string[left]] === 0) delete temp[string[left]];
       }
     }
   }
-  return max;
+
+  return longest;
 };
 
 console.log(longestSubstring("bbaaa", 3)); // 3
