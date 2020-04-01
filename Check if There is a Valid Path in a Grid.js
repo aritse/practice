@@ -55,48 +55,52 @@ n == grid[i].length
  */
 const hasValidPath = grid => {
   const follow = (i, j) => {
-    if (i === m - 1 && j === n - 1) return true;
-    visited[i][j] = true;
+    while (!(i === m - 1 && j === n - 1)) {
+      visited[i][j] = true;
 
-    let cell1;
-    let cell2;
-
-    switch (grid[i][j]) {
-      case 1:
-        if (j - 1 >= 0 && [1, 4, 6].includes(grid[i][j - 1])) cell1 = [i, j - 1];
-        if (j + 1 < n && [1, 3, 5].includes(grid[i][j + 1])) cell2 = [i, j + 1];
-        break;
-      case 2:
-        if (i - 1 >= 0 && [2, 3, 4].includes(grid[i - 1][j])) cell1 = [i - 1, j];
-        if (i + 1 < m && [2, 5, 6].includes(grid[i + 1][j])) cell2 = [i + 1, j];
-        break;
-      case 3:
-        if (j - 1 >= 0 && [1, 4, 6].includes(grid[i][j - 1])) cell1 = [i, j - 1];
-        if (i + 1 < m && [2, 5, 6].includes(grid[i + 1][j])) cell2 = [i + 1, j];
-        break;
-      case 4:
-        if (j + 1 < n && [1, 3, 5].includes(grid[i][j + 1])) cell1 = [i, j + 1];
-        if (i + 1 < m && [2, 5, 6].includes(grid[i + 1][j])) cell2 = [i + 1, j];
-        break;
-      case 5:
-        if (j - 1 >= 0 && [1, 4, 6].includes(grid[i][j - 1])) cell1 = [i, j - 1];
-        if (i - 1 >= 0 && [2, 3, 4].includes(grid[i - 1][j])) cell2 = [i - 1, j];
-        break;
-      case 6:
-        if (j + 1 < n && [1, 3, 5].includes(grid[i][j + 1])) cell1 = [i, j + 1];
-        if (i - 1 >= 0 && [2, 3, 4].includes(grid[i - 1][j])) cell2 = [i - 1, j];
-        break;
+      switch (grid[i][j]) {
+        case 1:
+          if (j - 1 >= 0 && !visited[i][j - 1] && [1, 4, 6].includes(grid[i][j - 1])) j--;
+          else if (j + 1 < n && !visited[i][j + 1] && [1, 3, 5].includes(grid[i][j + 1])) j++;
+          else return false;
+          break;
+        case 2:
+          if (i - 1 >= 0 && !visited[i - 1][j] && [2, 3, 4].includes(grid[i - 1][j])) i--;
+          else if (i + 1 < m && !visited[i + 1][j] && [2, 5, 6].includes(grid[i + 1][j])) i++;
+          else return false;
+          break;
+        case 3:
+          if (j - 1 >= 0 && !visited[i][j - 1] && [1, 4, 6].includes(grid[i][j - 1])) j--;
+          else if (i + 1 < m && !visited[i + 1][j] && [2, 5, 6].includes(grid[i + 1][j])) i++;
+          else return false;
+          break;
+        case 4:
+          if (j + 1 < n && !visited[i][j + 1] && [1, 3, 5].includes(grid[i][j + 1])) j++;
+          else if (i + 1 < m && !visited[i + 1][j] && [2, 5, 6].includes(grid[i + 1][j])) i++;
+          else return false;
+          break;
+        case 5:
+          if (j - 1 >= 0 && !visited[i][j - 1] && [1, 4, 6].includes(grid[i][j - 1])) j--;
+          else if (i - 1 >= 0 && !visited[i - 1][j] && [2, 3, 4].includes(grid[i - 1][j])) i--;
+          else return false;
+          break;
+        case 6:
+          if (j + 1 < n && !visited[i][j + 1] && [1, 3, 5].includes(grid[i][j + 1])) j++;
+          else if (i - 1 >= 0 && !visited[i - 1][j] && [2, 3, 4].includes(grid[i - 1][j])) i--;
+          else return false;
+          break;
+      }
     }
-    return (
-      (cell1 && visited[cell1[0]][cell1[1]] === false && follow(cell1[0], cell1[1])) ||
-      (cell2 && visited[cell2[0]][cell2[1]] === false && follow(cell2[0], cell2[1])) ||
-      false
-    );
+    return true;
   };
 
   const [m, n] = [grid.length, grid[0].length];
   const visited = Array.from(Array(m), () => Array(n).fill(false));
-  return follow(0, 0);
+
+  if (grid[0][0] === 4) {
+    visited[0][0] = true;
+    return ([1, 3, 5].includes(grid[0][1]) && follow(0, 1)) || ([2, 5, 6].includes(grid[1][0]) && follow(1, 0));
+  } else return follow(0, 0);
 };
 
 console.log(
