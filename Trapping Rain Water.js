@@ -14,16 +14,16 @@ Output: 6 */
  */
 const trap = height => {
   const n = height.length;
-  if (n < 1) return 0;
   let totalWaterVolume = 0;
 
-  for (let i = 1; i < n - 1; i++) {
+  for (let i = 0; i < n; i++) {
     let [leftMax, rightMax] = [0, 0];
-    for (let j = 0; j <= i; j++) leftMax = Math.max(leftMax, height[j]);
-    for (let j = i; j < n; j++) rightMax = Math.max(rightMax, height[j]);
-    const volume = Math.min(leftMax, rightMax) - height[i];
-    totalWaterVolume += volume;
+    leftMax = Math.max(...height.slice(0, i + 1));
+    rightMax = Math.max(...height.slice(i, n));
+    const volumeOnTopOfBuilding = Math.min(leftMax, rightMax) - height[i];
+    totalWaterVolume += volumeOnTopOfBuilding;
   }
+
   return totalWaterVolume;
 };
 
