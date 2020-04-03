@@ -18,25 +18,21 @@
 the current max is no longer relevant and the current element becomes the max. On each iteration, we update the largest with the current max.
 */
 
-var maxSubArray = function (nums) {
-    let largest = nums[0];
-    let max = nums[0];
-    for (let i = 1; i < nums.length; i++) {
-        max = Math.max(nums[i], nums[i] + max);
-        if (max > largest) {
-            largest = max;
-        }
+var maxSubArray = function(nums) {
+  let largest = nums[0];
+  let max = nums[0];
+  for (let i = 1; i < nums.length; i++) {
+    max = Math.max(nums[i], nums[i] + max);
+    if (max > largest) {
+      largest = max;
     }
-    return largest;
+  }
+  return largest;
 };
 
-/*
-Solution I found online to be very cool. On each iteration, it builds max values along the way. It is DP because
-the next solution builds on top of the previous solution.
-*/
+const maxSubArray = nums => {
+  const subproblems = Array.from(nums);
+  for (let i = 1; i < nums.length; i++) subproblems[i] = Math.max(subproblems[i], subproblems[i - 1] + nums[i]);
 
-// var maxSubArray = function (nums) {
-//     for (let i = 1; i < nums.length; i++)
-//         nums[i] = Math.max(nums[i], nums[i] + nums[i - 1]);
-//     return Math.max(...nums);
-// };
+  return Math.max(...subproblems);
+};
