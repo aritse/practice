@@ -19,7 +19,8 @@ Output: false */
  * @param {number[]} nums
  * @return {boolean}
  */
-const increasingTriplet = nums => {
+
+const increasingTriplet2 = nums => {
   const len = nums.length;
   const solutions = Array(len).fill(1);
 
@@ -35,3 +36,17 @@ const increasingTriplet = nums => {
   }
   return false;
 };
+
+console.log(increasingTriplet([1, 2, 3, 4, 5])); // true
+
+/* Solutions found online - O(n) runtime */
+// const increasingTriplet = nums => {
+//   let [lowerTrough, higherTrough] = [Infinity, Infinity];
+//   for (let i = 0; i < nums.length; i++) {
+//     const n = nums[i];
+//     if (n <= lowerTrough) lowerTrough = n;
+//     else if (n <= higherTrough) higherTrough = n;
+//     else return true;
+//   }
+//   return false;
+// };
