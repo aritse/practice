@@ -18,25 +18,42 @@ Follow up: Could you improve it to O(n log n) time complexity? */
  * @param {number[]} nums
  * @return {number}
  */
-var lengthOfLIS = function (nums) {
-    const len = nums.length;
-    if (len < 1) return 0;
-    const lisAtIndex = Array(len).fill(1);
-    for (let i = len - 2; i >= 0; i--)
-        for (let j = i + 1; j < len; j++)
-            if (nums[i] < nums[j])
-                lisAtIndex[i] = Math.max(lisAtIndex[i], 1 + lisAtIndex[j]);
-    return Math.max(...lisAtIndex);
+var lengthOfLIS = function(nums) {
+  const len = nums.length;
+  if (len < 1) return 0;
+  const lisAtIndex = Array(len).fill(1);
+  for (let i = len - 2; i >= 0; i--) {
+    for (let j = i + 1; j < len; j++) {
+      if (nums[i] < nums[j]) {
+        lisAtIndex[i] = Math.max(lisAtIndex[i], 1 + lisAtIndex[j]);
+      }
+    }
+  }
+  return Math.max(...lisAtIndex);
+};
+
+const lengthOfLIS2 = nums => {
+  const len = nums.length;
+  if (len < 1) return 0;
+  const lisAtIndex = Array(len).fill(1);
+  for (let i = 1; i < len; i++) {
+    for (let j = 0; j < i; j++) {
+      if (nums[i] > nums[j]) {
+        lisAtIndex[i] = Math.max(lisAtIndex[i], 1 + lisAtIndex[j]);
+      }
+    }
+  }
+  return Math.max(...lisAtIndex);
 };
 
 // Another solution found online
 /* EXPLANATION
-Basically, the algorithm builds a subsequence of numbers in increasing order.
-The start of the subsequence is the first non-greedy trough found. The end of the subsequence keeps extending as long as there is an ever-increasing number found. When the iteration encounters a number that falls in the middle of the subsequence, that number will become the "new" end of the shrunk subsequence.
-
-Since the subsequence is always sorted, finding the position of a number in the sorted array can be a binary search. This is how we achieve the log(n) complexity. In fact, the cue in the problem description suggests that the optimal algorithm should be binary which means on each iteration, divide the search space in half. In interviews, you can pick up cues by asking questions like "What is the time complexity required for this problem?"
-
-Note that a bitwise operator such as |, <<, and >> can be used instead of Math.floor(). How does it work? The JS interpreter converts all operands of a bitwise operator into 32-bit numbers first. That means truncating an operand that doesn't fit in 32 bits.*/
+  Basically, the algorithm builds a subsequence of numbers in increasing order.
+  The start of the subsequence is the first non-greedy trough found. The end of the subsequence keeps extending as long as there is an ever-increasing number found. When the iteration encounters a number that falls in the middle of the subsequence, that number will become the "new" end of the shrunk subsequence.
+  
+  Since the subsequence is always sorted, finding the position of a number in the sorted array can be a binary search. This is how we achieve the log(n) complexity. In fact, the cue in the problem description suggests that the optimal algorithm should be binary which means on each iteration, divide the search space in half. In interviews, you can pick up cues by asking questions like "What is the time complexity required for this problem?"
+  
+  Note that a bitwise operator such as |, <<, and >> can be used instead of Math.floor(). How does it work? The JS interpreter converts all operands of a bitwise operator into 32-bit numbers first. That means truncating an operand that doesn't fit in 32 bits.*/
 
 // var lengthOfLIS = function (nums) {
 //     if (nums.length < 1) return 0;
@@ -58,5 +75,4 @@ Note that a bitwise operator such as |, <<, and >> can be used instead of Math.f
 // };
 
 const nums = [10, 9, 2, 5, 3, 7, 101, 18];
-console.log(lengthOfLIS(nums)); // expect 4
-
+console.log(lengthOfLIS2(nums)); // expect 4
