@@ -4,7 +4,7 @@
 
 // Input: 19
 // Output: true
-// Explanation: 
+// Explanation:
 // 12 + 92 = 82
 // 82 + 22 = 68
 // 62 + 82 = 100
@@ -17,14 +17,17 @@
 
 /* My solution with timeout */
 
-var isHappy = function (n) {
-    let timeout = 0;
-    while (timeout < 1000) {
-        if (n === 1) return true;
-        n = n.toString().split('').reduce((sos, d) => sos + d * d, 0);
-        timeout++;
-    }
-    return false;
+var isHappy = function(n) {
+  let timeout = 0;
+  while (timeout < 1000) {
+    if (n === 1) return true;
+    n = n
+      .toString()
+      .split("")
+      .reduce((sos, d) => sos + d * d, 0);
+    timeout++;
+  }
+  return false;
 };
 
 /* Solution that found online by keeping track of the sum in a set */
@@ -38,3 +41,16 @@ var isHappy = function (n) {
 //     }
 //     return true;
 // };
+
+var isHappy2 = function(n) {
+  let i = 5000;
+  while (n !== 1) {
+    n = n
+      .toString()
+      .split("")
+      .reduce((acc, d) => acc + d * d, 0);
+    i--;
+    if (!i) return false;
+  }
+  return true;
+};
