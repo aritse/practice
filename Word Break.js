@@ -21,30 +21,35 @@ Input: s = "catsandog", wordDict = ["cats", "dog", "sand", "and", "cat"]
 Output: false */
 
 /**
- * @param {string} string
+ * @param {string} s
  * @param {string[]} words
  * @return {boolean}
  */
-const wordBreak = (string, words) => {
-  if (string === "") return true;
-  if (words.length === 0) return false;
+const wordBreak = (s, wordDict) => {
+  const helper = (s, words) => {
+    if (s === "") return true;
+    if (words.length < 1) return false;
 
-  for (let i = 0; i < words.length; i++) {
-    let canBeSegmented = true;
-    const copy = Array.from(words);
-    copy.splice(i, 1);
-    const word = words[i];
+    for (let i = 0; i < words.length; i++) {
+      const substrings = s.split(words[i]);
 
-    const substrings = string.split(word);
+      const copy = [...words];
+      copy.splice(i, 1);
 
-    for (let j = 0; j < substrings.length; j++) {
-      const substring = substrings[j];
-      canBeSegmented &= wordBreak(substring, copy);
+      let solved = true;
+      for (let j = 0; j < substrings.length; j++) {
+        if (solutions[substrings[j]] === undefined) {
+          solutions[substrings[j]] = helper(substrings[j], copy);
+        }
+        solved &= solutions[substrings[j]];
+      }
+      if (solved) return true;
     }
-    if (canBeSegmented) return true;
-  }
+    return false;
+  };
 
-  return false;
+  const solutions = {};
+  return helper(s, wordDict);
 };
 
 console.log(wordBreak("leetcode", ["leet", "code"])); // true
@@ -52,6 +57,7 @@ console.log(wordBreak("applepenapple", ["apple", "pen"])); // true
 console.log(wordBreak("catsandog", ["cats", "dog", "sand", "and", "cat"])); // false
 console.log(wordBreak("cbca", ["bc", "ca"])); // false
 console.log(wordBreak("cars", ["car", "ca", "rs"])); // true
+console.log(wordBreak("a", ["b"])); // false
 console.log(
   wordBreak("bccdbacdbdacddabbaaaadababadad", [
     "cbc",
@@ -103,6 +109,6 @@ console.log(
     "ddbdd",
     "cadaa",
     "ddbc",
-    "babb"
+    "babb",
   ])
-); //
+); // true
