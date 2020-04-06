@@ -16,20 +16,17 @@ All inputs will be in lowercase.
 The order of your output does not matter.
 */
 /**
- * @param {string[]} strs
+ * @param {string[]} strings
  * @return {string[][]}
  */
-var groupAnagrams = function (strings) {
-    const groups = {};
-    strings.forEach(s => {
-        const chars = s.split('');
-        chars.sort();
-        if (groups[chars]) groups[chars].push(s);
-        else groups[chars] = [s];
-    });
-    const anagrams = [];    // convert hash to array
-    Object.values(groups).forEach(v => anagrams.push(v));
-    return anagrams;
+const groupAnagrams = (strings) => {
+  const anagrams = [];
+  strings.forEach((string) => {
+    const key = string.split("").sort().join("");
+    anagrams[key] ? anagrams[key].push(string) : (anagrams[key] = [string]);
+  });
+
+  return Object.values(anagrams);
 };
 
 const strs = ["eat", "tea", "tan", "ate", "nat", "bat"];
