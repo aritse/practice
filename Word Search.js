@@ -31,23 +31,27 @@ board and word consists only of lowercase and uppercase English letters.
  * @return {boolean}
  */
 const exist = (board, word) => {
-  const backtrack = (r, c, word) => {
-    if (word === "") return true;
-    if (r < 0 || r >= rows || c < 0 || c >= cols || board[r][c] !== word.substring(0, 1)) return false;
+  const backtrack = (r, c, suffix) => {
+    if (suffix.length === 0) return true;
+    if (r < 0 || r >= rows || c < 0 || c >= cols || board[r][c] !== suffix.substring(0, 1)) return false;
 
     board[r][c] = "-";
-    result =
-      backtrack(r, c + 1, word.substring(1)) ||
-      backtrack(r, c - 1, word.substring(1)) ||
-      backtrack(r + 1, c, word.substring(1)) ||
-      backtrack(r - 1, c, word.substring(1));
+    for (let i = 0; i < 4; i++) {
+      if (backtrack(r + offsets[i][0], c + offsets[i][1], suffix.substring(1))) return true;
+    }
 
-    board[r][c] = word.substring(0, 1);
-    return result;
+    board[r][c] = suffix.substring(0, 1);
+    return false;
   };
 
-  const [rows, cols] = [board.length, board[0].length];
+  const offsets = [
+    [0, -1],
+    [0, 1],
+    [1, 0],
+    [-1, 0],
+  ];
 
+  const [rows, cols] = [board.length, board[0].length];
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < cols; c++) {
       if (backtrack(r, c, word)) return true;
