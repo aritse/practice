@@ -5,7 +5,6 @@
 // top() -- Get the top element.
 // getMin() -- Retrieve the minimum element in the stack.
 
-
 // Example:
 
 // MinStack minStack = new MinStack();
@@ -20,43 +19,48 @@
 /**
  * initialize your data structure here.
  */
-const nums = [];
-let length;
-const min = [];
-
 var MinStack = function () {
-    length = 0;
-    min[0] = Infinity;
+  this.stack = [];
+  this.sorted = [];
 };
 
-/** 
+/**
  * @param {number} x
  * @return {void}
  */
 MinStack.prototype.push = function (x) {
-    nums[length++] = x;
-    min[length] = Math.min(min[length - 1], x);
+  this.stack.push(x);
+  if (this.sorted.length < 1) this.sorted.push(x);
+  else {
+    let i = 0;
+    while (this.sorted[i] < x) {
+      i++;
+    }
+    this.sorted.splice(i, 0, x);
+  }
 };
 
 /**
  * @return {void}
  */
 MinStack.prototype.pop = function () {
-    return nums[length--];
+  if (this.stack.length > 0) {
+    this.sorted.splice(this.sorted.indexOf(this.stack.pop()), 1);
+  }
 };
 
 /**
  * @return {number}
  */
 MinStack.prototype.top = function () {
-    return nums[length - 1];
+  return this.stack.length ? this.stack[this.stack.length - 1] : null;
 };
 
 /**
  * @return {number}
  */
 MinStack.prototype.getMin = function () {
-    return min[length];
+  return this.sorted.length ? this.sorted[0] : null;
 };
 
 /**
