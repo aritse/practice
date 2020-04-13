@@ -22,16 +22,29 @@ Note: The length of path between two nodes is represented by the number of edges
  * @param {TreeNode} root
  * @return {number}
  */
-function diameterOfBinaryTree(root) {
-  if (root === null) return 0;
+// function diameterOfBinaryTree(root) {
+//   if (root === null) return 0;
 
-  const leftHeight = height(root.left);
-  const rightHeight = height(root.right);
+//   const leftHeight = height(root.left);
+//   const rightHeight = height(root.right);
 
-  const leftDiameter = diameterOfBinaryTree(root.left);
-  const rightDiameter = diameterOfBinaryTree(root.right);
+//   const leftDiameter = diameterOfBinaryTree(root.left);
+//   const rightDiameter = diameterOfBinaryTree(root.right);
 
-  return Math.max(leftHeight + rightHeight, Math.max(leftDiameter, rightDiameter));
+//   return Math.max(leftHeight + rightHeight, Math.max(leftDiameter, rightDiameter));
+// }
+
+// const height = (root) => (root ? Math.max(height(root.left), height(root.right)) + 1 : 0);
+
+// Eric's solution online
+function dfs(root) {
+  if (!root) return [0, 0];
+  let [left, right] = [dfs(root.left), dfs(root.right)];
+  // [diameter, depth]
+  let diameter = Math.max(left[0], right[0], left[1] + right[1]);
+  return [diameter, Math.max(left[1], right[1]) + 1];
 }
 
-const height = (root) => (root ? Math.max(height(root.left), height(root.right)) + 1 : 0);
+function diameterOfBinaryTree(root) {
+  return dfs(root)[0];
+}
