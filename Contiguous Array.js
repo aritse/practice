@@ -10,22 +10,18 @@ Output: 2
 Explanation: [0, 1] (or [1, 0]) is a longest contiguous subarray with equal number of 0 and 1.
 Note: The length of the given binary array will not exceed 50,000. */
 
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
 const findMaxLength = (nums) => {
-  const n = nums.length;
-  let movingSum = 0;
-  for (let i = 0; i < n; ++i) {
-    nums[i] = nums[i] || -1;
-    movingSum += nums[i];
-    nums[i] = movingSum;
+  const map = {};
+  map[0] = -1;
+  let [maxLen, count] = [0, 0];
+  for (let i = 0; i < nums.length; i++) {
+    count += nums[i] || -1;
+    if (map[count] === undefined) map[count] = i;
+    else maxLen = Math.max(maxLen, i - map[count]);
   }
-
-  let maxLength = 0;
-  for (let j = n - 1; j >= 0; --j) {
-    for (let i = 0; i <= j; ++i) {
-      const sum = i < 1 ? nums[j] : nums[j] - nums[i - 1];
-      if (sum === 0) maxLength = Math.max(maxLength, j - i + 1);
-    }
-  }
-
-  return maxLength;
+  return maxLen;
 };
