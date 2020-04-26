@@ -12,16 +12,23 @@ The range of numbers in the array is [-1000, 1000] and the range of the integer 
  * @param {number} k
  * @return {number}
  */
-var subarraySum = function (nums, k) {
-  const n = nums.length;
-  const S = Array.from(Array(n), () => Array(n));
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
+function subarraySum(N, k) {
+  const n = N.length;
+  let answer = 0;
+  let prefixSum = 0;
+  const countPrefixSum = {};
+  countPrefixSum[0] = 1;
+  for (let right = 0; right < n; right++) {
+    prefixSum += N[right];
+    answer += countPrefixSum[prefixSum - k] || 0;
+    countPrefixSum[prefixSum] = countPrefixSum[prefixSum] + 1 || 1;
+  }
+  return answer;
+}
 
-  for (let i = 0; i < n; i++) S[i][i] = nums[i];
-
-  for (let i = 0; i < nums.length - 1; i++) for (let j = i + 1; j < nums.length; j++) S[i][j] = S[i][j - 1] + nums[j];
-
-  let count = 0;
-  for (let i = 0; i < n; i++) for (let j = i; j < n; j++) if (S[i][j] === k) count++;
-
-  return count;
-};
+subarraySum([100, 1, 2, 3, 4], 3);
