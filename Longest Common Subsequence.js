@@ -36,24 +36,26 @@ The input strings consist of lowercase English characters only. */
  * @param {string} text2
  * @return {number}
  */
-const longestCommonSubsequence = (text1, text2) => {
-  const solve = (text1, text2) => {
-    // solutions to base subproblems
-    for (let i = 0; i <= len1; i++) D[i][0] = 0;
-    for (let i = 0; i <= len2; i++) D[0][i] = 0;
+const longestCommonSubsequence = function (t1, t2) {
+  const [l1, l2] = [t1.length, t2.length];
+  if (l1 < 1 || l2 < 1) return 0;
 
-    // solve subproblems in bottom-up manner
-    for (let i = 1; i <= len1; i++) {
-      for (let j = 1; j <= len2; j++) {
-        D[i][j] = text1.charAt(i - 1) === text2.charAt(j - 1) ? D[i - 1][j - 1] + 1 : Math.max(D[i][j - 1], D[i - 1][j]);
-      }
+  const dp = Array.from(Array(l1 + 1), () => Array(l2 + 1).fill(undefined));
+
+  // populate dp table with solutions to base / trivial subproblems
+  for (let i = 0; i <= l1; i++) dp[i][0] = 0;
+  for (let j = 0; j <= l2; j++) dp[0][j] = 0;
+
+  // solve bottom up
+  for (let i = 1; i <= l1; i++) {
+    for (let j = 1; j <= l2; j++) {
+      if (t1.charAt(i - 1) === t2.charAt(j - 1))
+        dp[i][j] = dp[i - 1][j - 1] + 1;
+      else dp[i][j] = Math.max(dp[i][j - 1], dp[i - 1][j]);
     }
-  };
+  }
 
-  const [len1, len2] = [text1.length, text2.length];
-  const D = Array.from(Array(len1 + 1), () => Array(len2 + 1).fill(undefined));
-  solve(text1, text2);
-  return D[len1][len2];
+  return dp[l1][l2];
 };
 
 const [text1, text2] = ["abcde", "ace"];
