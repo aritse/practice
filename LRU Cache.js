@@ -17,44 +17,36 @@ class Node {
 }
 
 class DoublyLinkedList {
-  head = null;
-  tail = null;
-
   constructor() {
     this.head = null;
     this.tail = null;
   }
 
-  isEmpty = function () {
-    return this.head === null && this.tail === null;
-  };
-
   insertAtHead = function (node) {
-    if (this.isEmpty()) {
-      this.head = node;
-      this.tail = node;
-    } else {
+    if (this.head) {
       this.head.prev = node;
       node.next = this.head;
       this.head = node;
+    } else {
+      this.head = node;
+      this.tail = node;
     }
   };
 
   insertAtTail = function (node) {
-    if (this.isEmpty()) {
-      this.head = node;
-      this.tail = node;
-    } else {
+    if (this.tail) {
       this.tail.next = node;
       node.prev = this.tail;
+      this.tail = node;
+    } else {
+      this.head = node;
       this.tail = node;
     }
   };
 
   removeAtHead = function () {
-    let node = null;
-    if (!this.isEmpty()) {
-      node = this.head;
+    const node = this.head;
+    if (node) {
       if (this.head === this.tail) {
         this.head = null;
         this.tail = null;
@@ -62,15 +54,13 @@ class DoublyLinkedList {
         this.head = this.head.next;
         this.head.prev = null;
       }
-      node.next = null;
     }
     return node;
   };
 
   removeAtTail = function () {
-    let node = null;
-    if (!this.isEmpty()) {
-      node = this.tail;
+    const node = this.tail;
+    if (node) {
       if (this.head === this.tail) {
         this.head = null;
         this.tail = null;
@@ -78,22 +68,15 @@ class DoublyLinkedList {
         this.tail = this.tail.prev;
         this.tail.next = null;
       }
-      node.prev = null;
     }
     return node;
   };
 
   removeNode = function (node) {
-    if (node === this.head) {
-      this.removeAtHead();
-    } else if (node === this.tail) {
-      this.removeAtTail();
-    } else {
-      node.prev.next = node.next;
-      node.next.prev = node.prev;
-      node.next = null;
-      node.prev = null;
-    }
+    if (node === this.head) return this.removeAtHead();
+    if (node === this.tail) return this.removeAtTail();
+    node.prev.next = node.next;
+    node.next.prev = node.prev;
   };
 
   promoteNode = function (node) {
@@ -110,10 +93,10 @@ const LRUCache = function (capacity) {
 };
 
 LRUCache.prototype.evict = function () {
-  node = this.list.removeAtTail();
+  const node = this.list.removeAtTail();
   this.length--;
-  const evict = Object.keys(this.cache).find((k) => this.cache[k] === node);
-  delete this.cache[evict];
+  const key = Object.keys(this.cache).find((k) => this.cache[k] === node);
+  delete this.cache[key];
 };
 
 LRUCache.prototype.put = function (key, value) {
@@ -123,7 +106,7 @@ LRUCache.prototype.put = function (key, value) {
     this.list.promoteNode(node);
   } else {
     if (this.length >= this.capacity) this.evict();
-    const node = new Node(value);
+    node = new Node(value);
     this.list.insertAtHead(node);
     this.length++;
     this.cache[key] = node;
