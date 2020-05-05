@@ -1,31 +1,27 @@
-const heapify = (numbers, n, parent) => {
+const heapify = (N, size, parent) => {
   let largest = parent;
-  let [leftChild, rightChild] = [parent * 2 + 1, parent * 2 + 2];
+  let [iLeft, iRight] = [parent * 2 + 1, parent * 2 + 2];
 
-  if (leftChild < n && numbers[leftChild] > numbers[largest]) largest = leftChild;
-  if (rightChild < n && numbers[rightChild] > numbers[largest]) largest = rightChild;
+  if (iLeft < size && N[iLeft] > N[largest]) largest = iLeft;
+  if (iRight < size && N[iRight] > N[largest]) largest = iRight;
 
   if (largest !== parent) {
-    [numbers[largest], numbers[parent]] = [numbers[parent], numbers[largest]];
-    heapify(numbers, n, largest);
+    [N[largest], N[parent]] = [N[parent], N[largest]];
+    heapify(N, size, largest);
   }
-
-  return numbers;
 };
 
-const heapSort = (numbers, n) => {
-  for (let i = Math.floor(n / 2); i >= 0; i--) {
-    heapify(numbers, n, i);
+const heapSort = (N, size) => {
+  for (let i = (size / 2) | 0; i >= 0; i--) {
+    heapify(N, size, i);
   }
 
-  for (let i = n - 1; i >= 0; i--) {
-    // swap
-    [numbers[i], numbers[0]] = [numbers[0], numbers[i]];
-    heapify(numbers, i, 0);
+  for (let i = size - 1; i >= 0; i--) {
+    [N[i], N[0]] = [N[0], N[i]];
+    heapify(N, i, 0);
   }
-
-  return numbers;
 };
 
 const numbers = [3, 4, 1, 4, 2, 4, 9, 6, 76, 34, 345, 2, 3, 0];
-console.log(heapSort(numbers, numbers.length));
+heapSort(numbers, numbers.length);
+console.log(numbers);
