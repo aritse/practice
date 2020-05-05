@@ -7,7 +7,7 @@
 
 /* My solution */
 
-var firstUniqChar = function(s) {
+var firstUniqChar = function (s) {
   var dict = {};
   for (c of s) {
     if (dict[c]) dict[c]++;
@@ -20,12 +20,11 @@ var firstUniqChar = function(s) {
 };
 
 /* Solution that I found it online cool */
-
-// var firstUniqChar = function(s) {
-//   for (i = 0; i < s.length; i++) {
-//     if (s.indexOf(s[i]) === s.lastIndexOf(s[i])) {
-//       return i;
-//     }
-//   }
-//   return -1;
-// };
+function firstUniqueChar(s) {
+  for (i = 0; i < s.length; i++) {
+    if (s.indexOf(s[i]) === s.lastIndexOf(s[i])) {
+      return i;
+    }
+  }
+  return -1;
+}
