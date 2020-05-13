@@ -54,7 +54,7 @@ const longestSubarray = function (nums, limit) {
         left = j + 1;
       }
     }
-    ans = Math.max(and, right - left + 1);
+    ans = Math.max(ans, right - left + 1);
   }
 
   return ans;
