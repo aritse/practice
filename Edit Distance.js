@@ -25,28 +25,26 @@ exention -> exection (replace 'n' with 'c')
 exection -> execution (insert 'u') */
 
 /**
- * @param {string} from
- * @param {string} to
+ * @param {string} A
+ * @param {string} B
  * @return {number}
  */
-const minDistance = (from, to) => {
-  const [len1, len2] = [from.length, to.length];
-  const D = Array.from(Array(len2 + 1), () => Array(len1 + 1).fill(0));
+const minDistance = (A, B) => {
+    const [a, b] = [A.length, B.length];
+    const dp = Array.from(Array(b + 1), () => Array(a + 1).fill(0));
 
-  for (let i = 0; i <= len1; i++) D[0][i] = i;
-  for (let i = 0; i <= len2; i++) D[i][0] = i;
+    for (let i = 1; i <= a; i++) dp[0][i] = 1 + dp[0][i - 1]; // A is null
+    for (let i = 1; i <= b; i++) dp[i][0] = 1 + dp[i - 1][0]; // B is null
 
-  for (let i = 0; i < len2; i++) {
-    for (let j = 0; j < len1; j++) {
-      if (from[j] === to[i]) {
-        D[i + 1][j + 1] = D[i][j];
-      } else {
-        D[i + 1][j + 1] = Math.min(D[i][j], D[i + 1][j], D[i][j + 1]) + 1;
-      }
-    }
-  }
-  return D[len2][len1]; // D = solutions to subproblems
+    for (let i = 1; i <= b; i++)
+        for (let j = 1; j <= a; j++)
+            dp[i][j] =
+                A[j - 1] === B[i - 1]
+                    ? dp[i - 1][j - 1]
+                    : Math.min(dp[i - 1][j - 1], dp[i][j - 1], dp[i - 1][j]) +
+                      1;
+    return dp[b][a];
 };
 
-const [from, to] = ["Ari is broke", "Ari is rich"];
-console.log(`Transformation from "${from}" to "${to}" is only ${minDistance(from, to)} steps away.`);
+const [A, B] = ["Ari is broke", "Ari is rich"];
+console.log(minDistance(A, B));
