@@ -8,12 +8,12 @@ class Link {
         if (this.next) {
             return this.data.toString().concat(" => ");
         } else {
-            return this.data.toString().concat(" => end ");
+            return this.data.toString().concat("");
         }
     }
 }
 
-export class LinkedList {
+export default class LinkedList {
     constructor() {
         this.head = null;
     }
@@ -50,7 +50,7 @@ export class LinkedList {
     }
 
     appendBulk(values) {
-        values.forEach(value => {
+        values.forEach((value) => {
             this.append(value);
         });
     }
@@ -96,7 +96,11 @@ export class LinkedList {
             this.head = this.head.next;
         } else {
             let runner = this.head;
-            for (let i = 1; i < position - 1 && runner.next.next !== null; i++) {
+            for (
+                let i = 1;
+                i < position - 1 && runner.next.next !== null;
+                i++
+            ) {
                 runner = runner.next;
             }
             if (runner.next.next !== null) {
@@ -115,8 +119,7 @@ export class LinkedList {
             if (h.next.data === data) {
                 h.next = h.next.next;
                 this.length--;
-            }
-            else {
+            } else {
                 h = h.next;
             }
         }
@@ -186,5 +189,5 @@ export class LinkedList {
             runner = runner.next;
         }
         return kth;
-    };
+    }
 }
