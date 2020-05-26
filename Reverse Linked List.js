@@ -38,14 +38,13 @@
 // };
 
 /* Solution that I found it cool */
-
-var reverseList = function(head) {
-  prev = null;
-  while (head) {
-    temp = head.next;
-    head.next = prev;
-    prev = head;
-    head = temp;
-  }
-  return prev;
-};
+function reverseList(head) {
+    let [prev, next] = [null, null];
+    while (head) {
+        next = head.next;
+        head.next = prev;
+        prev = head;
+        head = next;
+    }
+    return prev;
+}
