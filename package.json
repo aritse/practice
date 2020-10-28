@@ -1,7 +1,0 @@
-{
-    "dependencies": {
-        "@std/esm": "^0.26.0"
-    },
-    "type": "module",
-    "@std/esm": "js"
-}

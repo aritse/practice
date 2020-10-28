@@ -29,16 +29,16 @@ The first node is considered odd, the second node even and so on ...
  * @return {ListNode}
  */
 var oddEvenList = function (head) {
-    if (!head) return null;
-    let [oddRunner, evenRunner] = [head, head.next];
-    const evenHead = evenRunner;
-    while (oddRunner.next && evenRunner.next) {
-        oddRunner.next = evenRunner.next;
-        evenRunner.next = oddRunner.next.next;
-        oddRunner = oddRunner.next;
-        evenRunner = evenRunner.next;
-    }
-    if (evenRunner) evenRunner.next = null;
-    oddRunner.next = evenHead;
-    return head;
+  if (!head) return null;
+  let [odd, even] = [head, head.next];
+  const save = head.next;
+  while (odd.next && even.next) {
+    odd.next = even.next;
+    even.next = odd.next.next;
+    odd = odd.next;
+    even = even.next;
+  }
+  if (even) even.next = null;
+  odd.next = save;
+  return head;
 };
