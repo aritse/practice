@@ -130,6 +130,33 @@ class LinkedList {
     }
     return true;
   }
+
+  intersects(s) {
+    let [t, u] = [this.head, s.head];
+    let [tLen, uLen] = [0, 0];
+
+    while (t) {
+      t = t.next;
+      tLen++;
+    }
+    while (u) {
+      u = u.next;
+      uLen++;
+    }
+
+    let delta = tLen - uLen;
+    let short = delta < 0 ? this.head : s.head;
+    let long = delta >= 0 ? this.head : s.head;
+
+    while (delta--) long = long.next;
+
+    while (short) {
+      if (short === long) return short;
+      short = short.next;
+      long = long.next;
+    }
+    return null;
+  }
 }
 
 function sumLists(first, second) {
@@ -165,8 +192,8 @@ function sumLists(first, second) {
 }
 
 const [a, b] = [new LinkedList(), new LinkedList()];
-a.appendBulk([5, 9, 2, 9, 5]);
-b.appendBulk([5, 9, 2, 9, 5]);
+a.appendBulk([1, 2, 3, 4]);
+b.appendBulk([9, 8, 7, 6, 5, 4, 3]);
 
-b.reverse();
-console.log(a.isEqual(b.head));
+// b.reverse();
+console.log(b.intersects(a));
