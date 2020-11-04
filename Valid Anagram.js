@@ -21,15 +21,31 @@
 // };
 
 /* My solution 2 */
-var isAnagram = function(s, t) {
-  return (
-    s
-      .split("")
-      .sort()
-      .join() ===
-    t
-      .split("")
-      .sort()
-      .join()
-  );
-};
+// var isAnagram = function(s, t) {
+//   return (
+//     s
+//       .split("")
+//       .sort()
+//       .join() ===
+//     t
+//       .split("")
+//       .sort()
+//       .join()
+//   );
+// };
+
+function isAnagram(s, t) {
+  if (s.length !== t.length) return false;
+
+  const count = {};
+  for (let c of s) count[c] = count[c] + 1 || 1;
+
+  for (let c of t) {
+    if (!count[c]) return false;
+    count[c]--;
+  }
+  return true;
+}
+
+console.log(isAnagram("anagram", "aanamgr"));
+console.log(isAnagram("anagram", "aanamgs"));
