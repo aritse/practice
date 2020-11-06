@@ -1,0 +1,22 @@
+Understand the problem
+Explore concrete examples
+Break it down
+Solve the problem or simplify
+Refactor and how others solved
+
+
+
+
+TERMS:
+
+CONSIDERATIONS:
+
+QUESTIONS:
+Float or integer?
+What is the max and min number?
+Negative or positive?
+Floor, ceiling, or truncate?
+Can I use math operation?
+
+
+Emmpty input

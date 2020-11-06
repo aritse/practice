@@ -1,0 +1,6 @@
+multiple pointers
+sliding window
+divide and conquer
+dp
+greedy
+backtracking
