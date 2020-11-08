@@ -1,0 +1,310 @@
+ARRAY
+===================================================================
+Data structure for storing similar data sequentially
+Operations: read, write, insert, delete, search
+forEach and for..of if index is unneeded
+assume length = capacity
+insert
+constant time if at end
+linear time if at middle and start because of right shift
+delete
+constant time if at end by decrementing length
+linear time at middle and start because of left shift
+check edge case
+if (array == null || length == 0) { return false }
+binary search
+sorted array
+O(log n) to search because of halving search space
+O(n log n) to sort once
+worth sorting if freq searching
+in-place operations
+O(1) space complexity, but not time complexity
+overwrite original array
+2-pointer technique
+iterate array with pointers
+usually read & write pointers
+type: same or opposite direction, fixed width distance
+circular array
+use % by length to wrap
+
+LINKED LIST
+===================================================================
+singly | doubly LL
+access is linear because of advancing pointer over LL
+add: O(1) because no need to shift as opposed to array
+head, middle, tail
+create new node
+link new node in
+update head if necessary
+delete
+find prev node in O(n)
+link prev and next node
+if deleting head, advance head pointer
+classic problem: cycle detection
+use slow and fast pointers spaced out in between
+always examine if node is null before you accessing next property
+while (fast && fast->next) { ... }
+O(n)
+consider worst case to analyze time complexity
+classical problem: reverse LL
+iterate nodes in original order and move them to head of LL one by one
+O(n)
+can use recursive function
+Tips:
+go through some test cases will save you time
+try several different examples to validate your algorithm before writing code
+feel free to use several pointers
+may need to track prev node
+Doubly LL
+head to represent LL
+operations: access, insert, delete
+access is O(n) to advance to node
+insert O(1)
+link in new node with prev and next nodes
+link prev and next with the new node
+delete is easy
+link prev with next
+add new node after given node or at the beginning of the list in O(1) time
+delete first node in O(1) time
+spend O(n) time with singly LL to find prev node before deleting a given node
+much easier with doubly LL because of access to prev node and delete a given node in O(1) time
+If need to add or delete nodes often, LL is preferred over array
+If need to access elements by index often, array is better than LL
+Doubly LL is fast, but takes up more space
+
+BINARY TREE
+===================================================================
+DAG = directed acyclic graph
+BST = inorder traversal yields sorted list
+easily figure out math expression using inorder
+deleting a node is postorder
+post-order is widely use in mathematical expression
+handle the expression using a stack
+when sees an operator, pop 2 from stack
+calculate result and push it into stack
+use queue for BFS traversal
+For each recursive call
+focus on problem for current node
+call function recursively to solve its children
+top-down means that in each recursive call
+visit node first to come up with some values
+pass these values to its children when calling the function recursively
+can be considered as preorder
+recursive function top_down(root, params)
+1. return specific value for null node
+2. update the answer if needed                      // answer <-- params (global var)
+3. left_ans = top_down(root.left, left_params)      // left_params <-- root.val, params
+4. right_ans = top_down(root.right, right_params)   // right_params <-- root.val, params
+5. return the answer if needed                      // answer <-- left_ans, right_ans
+ask yourself two questions
+Can you determine some parameters to help the node know its answer?
+Can you use these parameters and the value of the node itself to determine what should be the parameters passed to its children?
+
+bottom-up call function recursively for all children
+then come up with answer according to the returned values and the value of the current node itself
+can be regarded as postorder traversal
+1. return specific value for null node
+2. left_ans = bottom_up(root.left)          // call function recursively for left child
+3. right_ans = bottom_up(root.right)        // call function recursively for right child
+4. return answers                           // answer <-- left_ans, right_ans, root.val
+
+QUEUE
+===================================================================
+FIFO enqueue (append) and dequeue (shift)
+dynamic array to implement
+keep track of head
+inefficent space use
+circular array of fixed size
+keep track of head and tail
+2 pointers
+queue applications
+breadth-first-search bfs
+find shortest path
+in graph algorithms
+
+Template 1:
+int BFS(Node root, Node target) {
+    Queue<Node> queue;  // store all nodes which are waiting to be processed
+    int step = 0;       // number of steps neeeded from root to current node
+    // initialize
+    add root to queue;
+    // BFS
+    while (queue is not empty) {
+        step = step + 1;
+        // iterate the nodes which are already in the queue
+        int size = queue.size();
+        for (int i = 0; i < size; ++i) {
+            Node cur = the first node in queue;
+            return step if cur is target;
+            for (Node next : the neighbors of cur) {
+                add next to queue;
+            }
+            remove the first node from queue;
+        }
+    }
+    return -1;          // there is no path from root to target
+}
+
+Template 2:
+/**
+ * Return the length of the shortest path between root and target node.
+ */
+int BFS(Node root, Node target) {
+    Queue<Node> queue;  // store all nodes which are waiting to be processed
+    Set<Node> visited;  // store all the nodes that we've visited
+    int step = 0;       // number of steps neeeded from root to current node
+    // initialize
+    add root to queue;
+    add root to visited;
+    // BFS
+    while (queue is not empty) {
+        step = step + 1;
+        // iterate the nodes which are already in the queue
+        int size = queue.size();
+        for (int i = 0; i < size; ++i) {
+            Node cur = the first node in queue;
+            return step if cur is target;
+            for (Node next : the neighbors of cur) {
+                if (next is not in visited) {
+                    add next to queue;
+                    add next to visited;
+                }
+            }
+            remove the first node from queue;
+        }
+    }
+    return -1;          // there is no path from root to target
+}
+
+RECURSION
+===================================================================
+1.recurrence relation: relationship between result of a problem and result of its subproblems.
+2.base case: case where can compute answer directly without any further recursion calls
+Once we figure out the above two elements, to implement recursive function, simply call function according to the recurrence relation until we reach the base case.
+Example: Pascal triangle:
+recurrence relation: f(i,j) = f(i-1,j-1) + f(i-1,j)
+base case: f(i, j) = 1 where j = 1 or i == j
+In recursive solution, we inefficiently perform duplicate calculations. we use memoization to get over it.
+Example: Fibonacci number:
+recurrence relation: F(n) = F(n - 1) + F(n - 2)
+F(0) = 0, F(1) = 1
+Execution tree: Binary because it calls itself twice
+Time complexity: O(2^n)
+Time complexity O(T):
+product of the number of recursion invocations R and the time complexity of calculation O(s)
+
+Memoization:
+store the intermediate results in the cache so that we could reuse them later without re-calculation
+Time complexity optimization
+calculation for each Fibonacci number would occur only once
+O(1)∗n=O(n)
+
+Example: Print reverse:
+Recurrent: printReverse(str) = printReverse(str[1...n]) + print(str[0])
+Base: ""
+Time complexity: O(printReverse)=n∗O(1)=O(n)
+Space complexity:
+1. recursion related
+memory cost incurred directly by recursion such as the stack to keep track of recursive function call:
+A. Return address of the function call. Once the function call is completed, the program must know where to return to, i.e. the line of code after the function call.
+B. The parameters that are passed to the function call.
+C. The local variables within the function call.
+For a recursive algorithm, if there is no other memory consumption, then this recursion incurred space will be the space upper-bound of the algorithm.
+Stack overflow can be caused by recursion-related space consumption where stack allocated for a program reaches its maximum space limit and the program crashes.
+Therefore, when designing a recursive algorithm, one should carefully check if there is a possibility of stack overflow when the input SCALES UP.
+2. non-recursion related
+memory space that is not directly related to recursion normally in heap:
+allocated for the global variables
+intermediate results as in memoization
+
+Tail recursion:
+Recursion where the recursive call is the final instruction in the recursion function. And there should be only one recursive call in the function.
+not tail recursion because it does some computation after the recursive call returned.
+tail recursion because the final instruction is the recursive call.
+benefit: avoid accumulation of stack overheads during the recursive calls, since the system could reuse a fixed amount space in the stack for each recursive call.
+skip the entire chain of recursive calls returning and return straight to the original caller. That means we don't need a call stack at all for all of the recursive calls, which saves us space.
+Often, the compiler (C/C++) recognizes tail recursion pattern, and optimizes its execution.
+Tips:
+When in doubt, write down the recurrence relationship.
+since the recurrence nature in recursion is quite close to the mathematics that we are familiar with
+Whenever possible, apply memoization.
+When drafting a recursion algorithm, start with naive strategy. Might end up with the situation where there might be duplicate calculation during the recursion
+In this case, apply the memoization technique, which stores the intermediate results in cache for later reuse.
+Memoization could greatly improve the time complexity with a bit of trade on space complexity, since it could avoid the expensive duplicate calculation.
+When stack overflows, tail recursion might come to help.
+Different from the memoization technique, tail recursion could optimize the space complexity of the algorithm, by eliminating the stack overhead incurred by recursion
+
+Divide and Conquer
+1. Divide.
+2. Conquer. Solve each subproblem recursively.
+3. Combine. Combine the results of each subproblem.
+
+
+
+
+
+
+
+
+
+STACK
+===================================================================
+easier than queue because of dynamic array implementation
+push, pop, top, peek
+Like BFS, DFS used to find path from root to target
+In most cases, we can also use DFS when using BFS
+Different from BFS, the nodes you visit earlier might not be the nodes which are closer to the root node. As a result, the first path you found in DFS might not be the shortest path.
+
+boolean DFS(Node cur, Node target, Set<Node> visited) {
+    return true if cur is target;
+    for (next : each neighbor of cur) {
+        if (next is not in visited) {
+            add next to visited;
+            return true if DFS(next, target, visited) == true;
+        }
+    }
+    return false;
+}
+
+
+
+
+
+
+
+
+
+
+
+LEADERSHIP PRINCIPLES
+===================================================================
+Ownership:
+1. Tell me about a time when you took on something significant outside your area of responsibility. Why was it important? What was the outcome?
+
+2. Describe a time when you didn't think you were going to meet a commitment you promised. How did you identify the risk and communicate it to stakeholders? Is there anything you would do differently?
+
+3. Give me an example of an initiative you undertook because you saw that it could benefit the whole company or your customers, but wasn’t within any group’s individual responsibility so nothing was being done.
+For example, I started a weekly training program on ML and DNN to engineers at Dentsu Data Artist in 2018 because the engineers lacked the knowledge and it would help me solidify mine as I was taking Deep Learning Specialization by Andrew Ng from Stanford offered through Coursera. The company's projects were in data analytics, AI and machine learning. The engineers were good at coding and math, but needed as much training as possible because the company had newly been founded and the data science field was a relatively new discipline. It was a startup company with about 25 engineers and no formal training department.
+
+Deliver Results:
+1. Give me an example of a time when you were able to deliver an important project under a tight deadline. What sacrifices did you have to make to meet the deadline? How did they impact the final deliverable? What was the final outcome?
+
+2. Tell me about a time when you had significant, unanticipated obstacles to overcome in achieving a key goal. What was the obstacle? Were you eventually successful? Knowing what you know now, is there anything you would have done differently?
+When I was tasked to resolve an accessability bug (high contrast), there was no apparent solution. First, I headed a wrong way for several days focusing on the wrong npm package and trying to make it work. Then, I finally found the correct package, my component needed to use a newer version of that particular package that fixed the issue. But I couldn't simply update my component because an external stakeholder wouldn't update to the newer version of the package. I eventually succeeded by finding a common ground. Looking back, asking yourself right questions solves half the problem. Your questions must be logical, based on facts. If hypothesis, make sure verify your hypothesis holds before proceeding.
+
+Insist on Highest standards
+1. Describe a time when you refused to compromise your standards around quality/customer service, etc. Who was your customer? What was the result?
+
+2. Tell me about a time when you were unsatisfied with the status quo. What did you do to change it? What was the impact? Would you do anything differently in the future?
+
+3. Tell me about a time when you worked to improve the quality of a product / service / solution that was already getting good customer feedback. Why did you think it needed improvement? How did customers react?
+When I worked at Microsoft design team, I read Clean Code book and implemented improvement in our code base. At the beginning, the priority was to create a working prototype in short amount time. As a result, the code was difficult to read and understand by another dev. It got out of control. The prototype got traction and support from business executives and turned into product. I cleaned the code by renamed variables, refactored code, split big functions that perform a single task. The comments were more self-descriptive. It saves time training another dev and code looks more production quality and stable, less buggy.
+
+4. Tell me about a time when you had to make a decision between standards and delivery. What tradeoffs did you have make? What was the outcome? Knowing what you know now, would you have done anything differently?
+
+
+
+BINARY SEARCH
+===================================================================
+halve search space
+sort first and do binary search
